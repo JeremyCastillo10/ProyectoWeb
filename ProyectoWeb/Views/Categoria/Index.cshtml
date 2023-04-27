@@ -1,4 +1,4 @@
-﻿@model List<Categoria>
+﻿@model IEnumerable<ProyectoWeb.Models.Categoria>
 
 <h1>Categories</h1>
 
@@ -16,11 +16,11 @@
             <tr>
                 <td>@Html.DisplayFor(m => item.NombreCategoria)</td>
                 <td>@Html.DisplayFor(m => item.Id)</td>
-                <td><button style="background-color:red">Del</button></td>
+                <td><button style="background-color:red ">Delete</button></td>
             </tr>
         }
     </tbody>
 </table>
-<a asp-controller="Categoria" asp-action="Create" style="color: blue;">New Category</a>
+<a asp-controller="Categoria" asp-action="Create" class="btn btn-primary">New Category</a>
 
 

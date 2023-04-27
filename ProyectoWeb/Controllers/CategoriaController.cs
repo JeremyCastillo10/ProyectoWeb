@@ -8,23 +8,34 @@ namespace ProyectoWeb.Controllers
     public class CategoriaController : Controller
     {
         private readonly ApplicationDbContext applicationDbContext;
-        public CategoriaController(ApplicationDbContext applicationDbContext)
+        public CategoriaController(ApplicationDbContext _applicationDbContext)
         {
-            this.applicationDbContext = applicationDbContext;
+            applicationDbContext = _applicationDbContext;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
+            IEnumerable<Categoria> lista = applicationDbContext.Categoria;
 
-            return View(await applicationDbContext.Categoria.ToListAsync());
+            return View(lista);
         }
 
 
         //Get
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
 
-            return View(await applicationDbContext.Categoria.ToListAsync());
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Categoria categoria)
+        {
+            applicationDbContext.Categoria.Add(categoria);
+            applicationDbContext.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
         }
 
 

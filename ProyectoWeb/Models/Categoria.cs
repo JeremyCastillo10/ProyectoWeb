@@ -6,7 +6,7 @@ namespace ProyectoWeb.Models
     {
         [Key]
         public int Id  { get; set; }
-        public string NombreCategoria { get; set; }
+        public string? NombreCategoria { get; set; }
         public int MostrarOrden { get; set; }
     }
 }
