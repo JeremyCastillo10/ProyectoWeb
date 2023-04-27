@@ -5,20 +5,29 @@
 
 <h1>Tipo Aplicacion</h1>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <td>Nombre</td>
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach(var item in Model)
-        {
+@if (Model.Count() > 0)
+{
+    <table class="table table-bordered table-striped" style="width:100%">
+        <thead>
             <tr>
-                <td>@Html.DisplayFor(m => item.Nombre)</td>
+                <th>Nombre</th>
+                <th>Action</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(m => item.Nombre)</td>
+                    <td><button style="background-color:red">Delete</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else{
+    <p1>No hay registros</p1>
+}
+<a asp-controller="TipoAplicacion" asp-action="Create" class="btn btn-primary">New Type</a>
 

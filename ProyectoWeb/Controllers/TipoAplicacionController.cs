@@ -18,6 +18,21 @@ namespace ProyectoWeb.Controllers
             return View(lista);
         }
 
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [IgnoreAntiforgeryToken]
+        public IActionResult Create(TipoAplicacion tipo)
+        {
+            _applicationDbContext.TipoAplicacion.Add(tipo);
+            _applicationDbContext.SaveChanges();
+
+           return RedirectToAction(nameof(Index));
+        }
+
 
     }
 }
