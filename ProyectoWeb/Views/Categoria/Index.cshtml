@@ -1,0 +1,26 @@
+﻿@model List<Categoria>
+
+<h1>Categories</h1>
+
+<table class="table table-bordered table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Id</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(m => item.NombreCategoria)</td>
+                <td>@Html.DisplayFor(m => item.Id)</td>
+                <td><button style="background-color:red">Del</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="https://www.ejemplo.com" style="color: blue;">New Category</a>
+
+
