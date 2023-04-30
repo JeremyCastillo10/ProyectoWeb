@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProyectoWeb.Datos;
 using ProyectoWeb.Models;
 
@@ -12,10 +13,10 @@ namespace ProyectoWeb.Controllers
         {
             _applicationDbContext = applicationDbContext;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            IEnumerable<TipoAplicacion> lista = _applicationDbContext.TipoAplicacion;
-            return View(lista);
+
+            return View(await _applicationDbContext.TipoAplicacion.ToListAsync());
         }
 
         public IActionResult Create()
@@ -27,10 +28,72 @@ namespace ProyectoWeb.Controllers
         [IgnoreAntiforgeryToken]
         public IActionResult Create(TipoAplicacion tipo)
         {
-            _applicationDbContext.TipoAplicacion.Add(tipo);
-            _applicationDbContext.SaveChanges();
+            if (ModelState.IsValid) {
+                _applicationDbContext.TipoAplicacion.Add(tipo);
+                _applicationDbContext.SaveChanges();
 
-           return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
+            }
+            return View(tipo);
+            
+        }
+
+        //GET
+        public IActionResult Edit(int Id)
+        {
+            if(Id == 0 || Id == 0)
+            {
+                return NotFound();
+            }
+            var db = _applicationDbContext.TipoAplicacion.Find(Id);
+            if (db == null) {
+                return NotFound();
+            }
+            return View(db);
+        }
+
+        [HttpPost]
+        [IgnoreAntiforgeryToken]
+        public IActionResult Edit(TipoAplicacion tipo)
+        {
+            if (ModelState.IsValid)
+            {
+                _applicationDbContext.TipoAplicacion.Update(tipo);
+                _applicationDbContext.SaveChanges();
+
+                return RedirectToAction(nameof(Index));
+            }
+            return View(tipo);
+
+        }
+        //GET
+        public IActionResult Delete(int Id)
+        {
+            if (Id == 0 || Id == 0)
+            {
+                return NotFound();
+            }
+            var db = _applicationDbContext.TipoAplicacion.Find(Id);
+            if (db == null)
+            {
+                return NotFound();
+            }
+            return View(db);
+        }
+
+        [HttpPost]
+        [IgnoreAntiforgeryToken]
+        public IActionResult Delete(TipoAplicacion tipo)
+        {
+            if(tipo == null)
+            {
+                return NotFound();
+            }
+                _applicationDbContext.TipoAplicacion.Remove(tipo);
+                _applicationDbContext.SaveChanges();
+
+                return RedirectToAction(nameof(Index));
+
         }
 
 
