@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using ProyectoWeb.Datos;
 using ProyectoWeb.Models;
 
@@ -32,14 +36,16 @@ namespace ProyectoWeb.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Categoria categoria)
         {
-            applicationDbContext.Categoria.Add(categoria);
-            applicationDbContext.SaveChanges();
 
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                applicationDbContext.Categoria.Add(categoria);
+                applicationDbContext.SaveChanges();
+
+                return RedirectToAction(nameof(Index));
+            }
+                return View(categoria);
         }
-
-
-
 
 
     }
