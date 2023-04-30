@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProyectoWeb.Models.Categoria>
+﻿@model List<ProyectoWeb.Models.Categoria>
 
 <div class="container p-3">
 @if (Model.Count() > 0)
@@ -22,7 +22,12 @@
                 <tr>
                     <td>@Html.DisplayFor(m => item.NombreCategoria)</td>
                     <td>@Html.DisplayFor(m => item.Id)</td>
-                        <td><button style="background-color: red; color: white;">Delete</button></td>
+                     <td class="text-center">
+                         <div class="w-50 btn-group">
+                             <a asp-controller="Categoria" asp-action="Edit" asp-route-Id="@item.Id" class="btn btn-primary mx-2">Edit</a>
+                             <a asp-controller="Categoria" asp-action="Delete" asp-route-Id="@item.Id" class="btn btn-danger mx-2">Delete</a>
+                         </div>
+                     </td>
 
                 </tr>
             }
