@@ -4,13 +4,11 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
 <form method="post" asp-action="Create">
     <div class="border p-3">
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    </div>
+    
         <div class="form-group row">
             <h2 class="text-info pl-3">Categorias</h2>
     </div>
@@ -35,6 +33,7 @@
              <a asp-controller="Categoria" asp-action="Index" class="btn btn-success">Back</a>
          </div>
 
+    </div>
     </div>
 
 </form>
