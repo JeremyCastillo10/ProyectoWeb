@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 using ProyectoWeb.Datos;
 using ProyectoWeb.Models;
+
 
 namespace ProyectoWeb.Controllers
 {
@@ -17,11 +14,9 @@ namespace ProyectoWeb.Controllers
             applicationDbContext = _applicationDbContext;
         }
 
-        public IActionResult Index()
-        {
-            IEnumerable<Categoria> lista = applicationDbContext.Categoria;
-
-            return View(lista);
+        public async Task<IActionResult> Index() { 
+        
+            return View(await applicationDbContext.Categoria.ToListAsync());
         }
 
 
@@ -45,6 +40,34 @@ namespace ProyectoWeb.Controllers
                 return RedirectToAction(nameof(Index));
             }
                 return View(categoria);
+        }
+        //Get
+        public IActionResult Edit(int Id)
+        {
+            if(Id == 0 || Id == null)
+            {
+                return NotFound();
+            }
+            var db = applicationDbContext.Categoria.Find(Id);
+            if(db == null)
+            {
+                return NotFound();
+            }
+            return View(db);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Categoria categoria)
+        {
+
+            if (ModelState.IsValid)
+            {
+                applicationDbContext.Categoria.Update(categoria);
+                applicationDbContext.SaveChanges();
+
+                return RedirectToAction(nameof(Index));
+            }
+            return View(categoria);
         }
 
 
