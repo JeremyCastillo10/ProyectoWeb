@@ -1,11 +1,12 @@
 ﻿@model ProyectoWeb.Models.TipoAplicacion
+
 @{
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
 <form method="post" asp-action="Create">
     <div class="border p-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group row">
             <h2 class="text-info pl-3">Tipo Aplicaciones</h2>
         </div>
@@ -14,6 +15,7 @@
                 <div class="col-md-6">
                     <label asp-for="Nombre" class="form-label"> Name Type</label>
                     <input asp-for="Nombre" class="form-control" />
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
                 </div>
             </div>
             <br />
@@ -23,6 +25,6 @@
             </div>
 
         </div>
-
+     </div>
 </form>
 
