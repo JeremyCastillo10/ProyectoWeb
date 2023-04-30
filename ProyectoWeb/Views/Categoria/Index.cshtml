@@ -13,7 +13,7 @@
             <tr>
                 <th>Name</th>
                 <th>Id</th>
-                <th>Action</th>
+                <th width="30">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -23,9 +23,9 @@
                     <td>@Html.DisplayFor(m => item.NombreCategoria)</td>
                     <td>@Html.DisplayFor(m => item.Id)</td>
                      <td class="text-center">
-                         <div class="w-50 btn-group">
-                             <a asp-controller="Categoria" asp-action="Edit" asp-route-Id="@item.Id" class="btn btn-primary mx-2">Edit</a>
-                             <a asp-controller="Categoria" asp-action="Delete" asp-route-Id="@item.Id" class="btn btn-danger mx-2">Delete</a>
+                         <div class="w-30 btn-group">
+                                <a asp-controller="Categoria" asp-action="Edit" asp-route-Id="@item.Id" class="btn btn-primary mx-2"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <a asp-controller="Categoria" asp-action="Delete" asp-route-Id="@item.Id" class="btn btn-danger mx-2"><i class="fa-solid fa-trash"></i></a>
                          </div>
                      </td>
 
@@ -37,7 +37,7 @@
 else{
     <p1>No hay Registros</p1>
 }
-<a asp-controller="Categoria" asp-action="Create" class="btn btn-primary">New Category</a>
+    <a asp-controller="Categoria" asp-action="Create" class="btn btn-primary"><i class="fa-solid fa-plus"> New</i></a>
 </div>
 
 

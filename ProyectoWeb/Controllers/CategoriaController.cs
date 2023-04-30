@@ -69,6 +69,32 @@ namespace ProyectoWeb.Controllers
             }
             return View(categoria);
         }
+        public IActionResult Delete(int Id)
+        {
+            if (Id == 0 || Id == null)
+            {
+                return NotFound();
+            }
+            var db = applicationDbContext.Categoria.Find(Id);
+            if (db == null)
+            {
+                return NotFound();
+            }
+            return View(db);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(Categoria categoria)
+        {
+            if(categoria == null)
+            {
+                return NotFound();
+            }
+                applicationDbContext.Categoria.Remove(categoria);
+                applicationDbContext.SaveChanges();
+
+                return RedirectToAction(nameof(Index));
+        }
 
 
     }
