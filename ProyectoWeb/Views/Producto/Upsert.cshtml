@@ -1,0 +1,82 @@
+﻿@model ProyectoWeb.Models.Producto
+@{
+    var titulo= "Creat new Product";
+}
+
+<form method="post" asp-action="Upsert" enctype="multipart/form-data">
+    @if(Model.Id != 0)
+    {
+        titulo = "Edit Product";
+        <input  asp-for="Id" hidden/>
+    }
+    <div class="border p-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <h2 class="text-info">@titulo</h2>
+        </div>
+        <div class="col-10">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label asp-for="NombreProducto" class="form-label">Nombre</label>
+                        <input asp-for="NombreProducto" class="form-control" />
+                        <span asp-validation-for="NombreProducto" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label asp-for="Precio" class="form-label">Precio</label>
+                        <input asp-for="Precio" class="form-control" />
+                        <span asp-validation-for="Precio" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label asp-for="DescripcionCorta" class="form-label">Descripcion Corta</label>
+                        <input asp-for="DescripcionCorta" class="form-control" />
+                        <span asp-validation-for="DescripcionCorta" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label asp-for="DescripcionProducto" class="form-label">Descripcion Producto</label>
+                        <input asp-for="DescripcionProducto" class="form-control" />
+                        <span asp-validation-for="DescripcionProducto" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label asp-for="NombreProducto" class="form-label">Imagen</label>
+                        <input type="file" name="files" id="ImagenId" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label asp-for="CategoriaId" class="form-label">Categoria</label>
+                        <select asp-for="CategoriaId" asp-items="@ViewBag.categoriaDropDown" class="form-select">
+                            <option disabled selected>Seleccione la categoria</option>
+                        </select>
+                    </div>
+                </div>
+                <br />
+
+                <div class="d-grid gap-2 d-md-block">
+                    @if(Model.Id != 0)
+                    {
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    }
+                    else{
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    }
+                    <a asp-controller="Categoria" asp-action="Index" class="btn btn-success">Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
