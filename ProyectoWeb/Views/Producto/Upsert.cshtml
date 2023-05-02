@@ -43,7 +43,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label asp-for="Producto.DescripcionProducto" class="form-label">Descripcion Producto</label>
-                        <input asp-for="Producto.DescripcionProducto" class="form-control" />
+                        <textarea asp-for="Producto.DescripcionProducto" class="form-control summernote"></textarea>
                         <span asp-validation-for="Producto.DescripcionProducto" class="text-danger"></span>
                     </div>
                 </div>
@@ -91,9 +91,14 @@
 
 @section Scripts{
     @{
-        <partial name='_validationScriptsPartial' />
+    <partial name='_validationScriptsPartial' />
     }
     <script>
+        $(document).ready(function () {
+            $('.summernote').summernote({
+                height: 250
+            });
+        });
         function validarImagen(){
             if (document.getElementById("imagenId").value == "") {
                 swal("Error", "Seleccione una Imagen!", "error");
