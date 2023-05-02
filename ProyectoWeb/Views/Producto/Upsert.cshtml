@@ -1,13 +1,13 @@
-﻿@model ProyectoWeb.Models.Producto
+﻿@model ProyectoWeb.Models.VIewModels.ProductoVM
 @{
     var titulo= "Creat new Product";
 }
 
 <form method="post" asp-action="Upsert" enctype="multipart/form-data">
-    @if(Model.Id != 0)
+    @if(Model.Producto.Id != 0)
     {
         titulo = "Edit Product";
-        <input  asp-for="Id" hidden/>
+        <input  asp-for="Producto.Id" hidden/>
     }
     <div class="border p-3">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -18,59 +18,68 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
-                        <label asp-for="NombreProducto" class="form-label">Nombre</label>
-                        <input asp-for="NombreProducto" class="form-control" />
-                        <span asp-validation-for="NombreProducto" class="text-danger"></span>
+                        <label asp-for="Producto.NombreProducto" class="form-label">Nombre</label>
+                        <input asp-for="Producto.NombreProducto" class="form-control" />
+                        <span asp-validation-for="Producto.NombreProducto" class="text-danger"></span>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6">
-                        <label asp-for="Precio" class="form-label">Precio</label>
-                        <input asp-for="Precio" class="form-control" />
-                        <span asp-validation-for="Precio" class="text-danger"></span>
+                        <label asp-for="Producto.Precio" class="form-label">Precio</label>
+                        <input asp-for="Producto.Precio" class="form-control" />
+                        <span asp-validation-for="Producto.Precio" class="text-danger"></span>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6">
-                        <label asp-for="DescripcionCorta" class="form-label">Descripcion Corta</label>
-                        <input asp-for="DescripcionCorta" class="form-control" />
-                        <span asp-validation-for="DescripcionCorta" class="text-danger"></span>
+                        <label asp-for="Producto.DescripcionCorta" class="form-label">Descripcion Corta</label>
+                        <input asp-for="Producto.DescripcionCorta" class="form-control" />
+                        <span asp-validation-for="Producto.DescripcionCorta" class="text-danger"></span>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6">
-                        <label asp-for="DescripcionProducto" class="form-label">Descripcion Producto</label>
-                        <input asp-for="DescripcionProducto" class="form-control" />
-                        <span asp-validation-for="DescripcionProducto" class="text-danger"></span>
+                        <label asp-for="Producto.DescripcionProducto" class="form-label">Descripcion Producto</label>
+                        <input asp-for="Producto.DescripcionProducto" class="form-control" />
+                        <span asp-validation-for="Producto.DescripcionProducto" class="text-danger"></span>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6">
-                        <label asp-for="NombreProducto" class="form-label">Imagen</label>
-                        <input type="file" name="files" id="ImagenId" class="form-control" />
+                        <label asp-for="Producto.ImagenUrl" class="form-label">Imagen</label>
+                        <input type="file" name="files" id="imagenId" class="form-control" />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <label asp-for="CategoriaId" class="form-label">Categoria</label>
-                        <select asp-for="CategoriaId" asp-items="@ViewBag.categoriaDropDown" class="form-select">
+                        <label asp-for="Producto.CategoriaId" class="form-label">Categoria</label>
+                        <select asp-for="Producto.CategoriaId" asp-items="@Model.CategoriaLista" class="form-select">
                             <option disabled selected>Seleccione la categoria</option>
                         </select>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label asp-for="Producto.TipoAplicacionId" class="form-label">Tipo Aplicacion</label>
+                        <select asp-for="Producto.TipoAplicacionId" asp-items="@Model.TipoAplicacionLista" class="form-select">
+                            <option disabled selected>Seleccione tipo aplicacion</option>
+                        </select>
+                    </div>
+                </div>
+
                 <br />
 
                 <div class="d-grid gap-2 d-md-block">
-                    @if(Model.Id != 0)
+                    @if(Model.Producto.Id != 0)
                     {
                         <button type="submit" class="btn btn-primary">Update</button>
                     }
                     else{
-                        <button type="submit" class="btn btn-primary">Create</button>
+                        <button type="submit" class="btn btn-primary" onclick="return validarImagen()">Create</button>
                     }
                     <a asp-controller="Categoria" asp-action="Index" class="btn btn-success">Back</a>
                 </div>
@@ -79,4 +88,19 @@
     </div>
 
 </form>
+
+@section Scripts{
+    @{
+        <partial name='_validationScriptsPartial' />
+    }
+    <script>
+        function validarImagen(){
+            if (document.getElementById("imagenId").value == "") {
+                swal("Error", "Seleccione una Imagen!", "error");
+                return false;
+            }
+            return true;
+        }
+    </script>
+}
 
