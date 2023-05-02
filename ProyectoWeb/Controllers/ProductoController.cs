@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProyectoWeb.Datos;
 using ProyectoWeb.Models;
-
+using ProyectoWeb.Models.VIewModels;
 
 namespace ProyectoWeb.Controllers
 {
@@ -24,26 +24,41 @@ namespace ProyectoWeb.Controllers
 
         public IActionResult Upsert(int? Id)
         {
-            IEnumerable<SelectListItem> categoriaDropDown = _context.Categoria.Select(m => new SelectListItem
+            //IEnumerable<SelectListItem> categoriaDropDown = _context.Categoria.Select(m => new SelectListItem
+            //{
+            //    Text = m.NombreCategoria,
+            //    Value = m.Id.ToString()
+            //});
+            //ViewBag.categoriaDropDown = categoriaDropDown;
+            //Producto producto = new Producto();
+            ProductoVM productoVM = new ProductoVM()
             {
-                Text = m.NombreCategoria,
-                Value = m.Id.ToString()
-            });
-            ViewBag.categoriaDropDown = categoriaDropDown;
-            Producto producto = new Producto();
+                Producto = new Producto(),
+                CategoriaLista = _context.Categoria.Select(c => new SelectListItem{
+                    Text = c.NombreCategoria,
+                    Value = c.Id.ToString()
+                }),
+                TipoAplicacionLista = _context.TipoAplicacion.Select(c => new SelectListItem{
+                    Text = c.Nombre,
+                    Value = c.Id.ToString()
+                }),
+
+
+
+            };
 
             if(Id == null)
             {
-                return View(producto);
+                return View(productoVM);
             }
             else
             {
-                producto = _context.Producto.Find(Id);
-                if(producto == null)
+                productoVM.Producto = _context.Producto.Find(Id);
+                if(productoVM.Producto == null)
                 {
                     return NotFound();
                 }
-                return View(producto);
+                return View(productoVM.Producto);
             }
 
         }
