@@ -25,6 +25,8 @@ namespace ProyectoWeb.Controllers
             return View(lista);
         }
 
+
+        //GET
         public IActionResult Upsert(int? Id)
         {
             //IEnumerable<SelectListItem> categoriaDropDown = _context.Categoria.Select(m => new SelectListItem
@@ -139,5 +141,48 @@ namespace ProyectoWeb.Controllers
 
             return View(productoVM);
         }
+
+        //GET
+        public IActionResult Delete(int ? Id)
+        {
+            if(Id == null || Id == 0)
+            {
+                return NotFound();
+            }
+            Producto producto = _context.Producto.Include(c => c.Categoria)
+                .Include(t => t.TipoAplicacion)
+                .FirstOrDefault(p => p.Id == Id);
+
+
+            if(producto == null)
+            {
+                return NotFound();
+            }
+
+            return View(producto);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(Producto producto)
+        {
+            if(producto == null)
+            {
+                return NotFound();
+            }
+            string upload = _webHostEnvironment.WebRootPath + WC.ImagenRuta;
+
+            var anteriorFile = Path.Combine(upload, producto.ImagenUrl);
+            if (System.IO.File.Exists(anteriorFile))
+            {
+                System.IO.File.Delete(anteriorFile);
+            }
+            _context.Producto.Remove(producto);
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));   
+        }
+
+
+
     }
 }
