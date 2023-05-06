@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using ProyectoWeb.Datos;
 using ProyectoWeb.Models;
+using ProyectoWeb.Models.VIewModels;
 using System.Diagnostics;
 
 namespace ProyectoWeb.Controllers
@@ -7,15 +10,22 @@ namespace ProyectoWeb.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _db; 
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db)
         {
+            _db = db;
             _logger = logger;
         }
 
         public IActionResult Index()
         {
-            return View();
+            HomeVM vm = new HomeVM()
+            {
+                Productos = _db.Producto.Include(c => c.Categoria).Include(t => t.TipoAplicacion),
+                Categorias = _db.Categoria
+            };
+            return View(vm);
         }
 
         public IActionResult Privacy()
