@@ -1,0 +1,55 @@
+﻿@model ProyectoWeb.Models.Producto
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+<style>
+    .card {
+        height: 100%;
+    }
+
+    .card-img-top {
+        max-height: 200px;
+        object-fit: cover;
+    }
+
+    .card-title {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .card-text {
+        font-size: 14px;
+    }
+</style>
+
+<div class="col-lg-3 col-md-6 pb-4">
+    <div class="card bg-white rounded shadow-sm" style="border:1px solid #222">
+        <div class="card-body px-3 pt-3 pb-1 row">
+            <div class="col-7">
+                <h5 class="card-title">@Model.NombreProducto</h5>
+            </div>
+            <div class="col-5">
+                <h5 class="card-title text-info">$@Model.Precio</h5>
+            </div>
+        </div>
+        <img class="card-img-top img-fluid d-block mx-auto mb-3" src="@WC.ImagenRuta@Model.ImagenUrl" alt="Imagen Card">
+        <div class="card-body p-1 px-3 row">
+            <div class="col-6">
+                <span class="badge p-2 border w-100 text-white" style="background-color:black">@Model.Categoria.NombreCategoria</span>
+            </div>
+            <div class="col-6 border-0">
+                <span class="badge p-2 border w-100 text-white" style="background-color:black">@Model.TipoAplicacion.Nombre</span>
+            </div>
+            <div class="col-12 pt-2">
+                <p class="card-text">@Model.DescripcionCorta</p>
+            </div>
+            <div class="col-12 p-1">
+                <a asp-action="Detalle" asp-route-Id="@Model.Id" class="btn btn-dark form-control btn-sm p-2" style="height:40px">Ver Detalle</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
