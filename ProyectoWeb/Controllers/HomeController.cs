@@ -28,6 +28,16 @@ namespace ProyectoWeb.Controllers
             return View(vm);
         }
 
+        public IActionResult Detalle(int Id)
+        {
+            DetalleVM detalleVM = new DetalleVM()
+            {
+                Producto = _db.Producto.Include(c => c.Categoria).Include(t => t.TipoAplicacion).Where(p => p.Id == Id).FirstOrDefault(),
+               ExisteProducto = false,
+            };
+            return View(detalleVM); 
+        }
+
         public IActionResult Privacy()
         {
             return View();
