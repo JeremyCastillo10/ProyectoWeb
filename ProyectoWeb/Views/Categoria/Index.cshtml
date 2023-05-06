@@ -6,13 +6,13 @@
     <div class="row pt-4">
             <div class="col-6"></div>
     </div>
-    
-        <h2 class="text-primary">Categories</h2>
+<div class="container border">
+        <h2 class="text-primary">Lista de Categories</h2>
     <table class="table table-bordered table-striped" style="width:100%">
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Id</th>
+                <th>Orden</th>
                 <th width="30">Action</th>
             </tr>
         </thead>
@@ -21,7 +21,7 @@
             {
                 <tr>
                     <td>@Html.DisplayFor(m => item.NombreCategoria)</td>
-                    <td>@Html.DisplayFor(m => item.Id)</td>
+                    <td>@Html.DisplayFor(m => item.MostrarOrden)</td>
                      <td class="text-center">
                          <div class="w-30 btn-group">
                                 <a asp-controller="Categoria" asp-action="Edit" asp-route-Id="@item.Id" class="btn btn-primary mx-2"><i class="fa-solid fa-pen-to-square"></i></a>
@@ -33,6 +33,7 @@
             }
         </tbody>
     </table>
+ </div>
 }
 else{
     <p1>No hay Registros</p1>
