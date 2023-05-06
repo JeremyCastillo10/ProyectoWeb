@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@using ProyectoWeb.Utilidades
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -35,6 +38,22 @@
                                 <li><a class="nav-link text-dark" asp-area="" asp-controller="TipoAplicacion" asp-action="Index">Type</a></li>
                                 <li><a class="nav-link text-dark" asp-area="" asp-controller="Producto" asp-action="Index">Products</a></li>
                             </ul>
+                        </li>
+                        <li>
+                            @if(HttpContextAccessor.HttpContext.Session.Get<List<CarroCompra>>(WC.SessionCarroCompras) != null)
+                                {
+                                <a asp-action="Index" asp-controller="Carro" class="nav-link">
+                                    @{
+                                        var count = HttpContextAccessor.HttpContext.Session.Get<List<CarroCompra>>(WC.SessionCarroCompras).Count();
+                                    }
+                                    <i class="fas fa-shopping-cart"></i> &nbsp; (@count)
+                                    </a>
+                                }
+                                else{
+                                    <a href="#" class="nav-link">
+                                    <i class="fas fa-shopping-cart"></i>&nbsp; (0)
+                                    </a>
+                                }
                         </li>
                     </ul>
                 </div>

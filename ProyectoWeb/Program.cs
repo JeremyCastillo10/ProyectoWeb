@@ -14,9 +14,9 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession(opt =>
 {
     opt.IdleTimeout = TimeSpan.FromMinutes(10);
-    opt.Cookie.HttpOnly = true; 
-    opt.Cookie.IsEssential =  true;
-})
+    opt.Cookie.HttpOnly = true;
+    opt.Cookie.IsEssential = true;
+});
 var app = builder.Build();
 
 
