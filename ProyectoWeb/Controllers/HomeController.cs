@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProyectoWeb.Datos;
 using ProyectoWeb.Models;
 using ProyectoWeb.Models.VIewModels;
+using ProyectoWeb.Utilidades;
 using System.Diagnostics;
 
 namespace ProyectoWeb.Controllers
@@ -36,6 +38,22 @@ namespace ProyectoWeb.Controllers
                ExisteProducto = false,
             };
             return View(detalleVM); 
+        }
+
+        [HttpPost, ActionName("Detalle")]
+        public IActionResult DetallePost(int Id)
+        {
+            List<CarroCompra> carroComprasLista = new List<CarroCompra>();
+            if(HttpContext.Session.Get<IEnumerable<CarroCompra>>(WC.SessionCarroCompras) != null &&
+                HttpContext.Session.Get<IEnumerable<CarroCompra>>(WC.SessionCarroCompras).Count() > 0)
+            {
+                carroComprasLista = HttpContext.Session.Get<List<CarroCompra>>(WC.SessionCarroCompras);
+            }
+            carroComprasLista.Add(new CarroCompra { ProductoId = Id});
+            HttpContext.Session.Set(WC.SessionCarroCompras, carroComprasLista);
+
+            return RedirectToAction(nameof(Index));
+
         }
 
         public IActionResult Privacy()
