@@ -32,11 +32,24 @@ namespace ProyectoWeb.Controllers
 
         public IActionResult Detalle(int Id)
         {
+            List<CarroCompra> carroComprasLista = new List<CarroCompra>();
+            if (HttpContext.Session.Get<IEnumerable<CarroCompra>>(WC.SessionCarroCompras) != null &&
+                HttpContext.Session.Get<IEnumerable<CarroCompra>>(WC.SessionCarroCompras).Count() > 0)
+            {
+                carroComprasLista = HttpContext.Session.Get<List<CarroCompra>>(WC.SessionCarroCompras);
+            }
             DetalleVM detalleVM = new DetalleVM()
             {
                 Producto = _db.Producto.Include(c => c.Categoria).Include(t => t.TipoAplicacion).Where(p => p.Id == Id).FirstOrDefault(),
                ExisteProducto = false,
             };
+            foreach(var item in carroComprasLista)
+            {
+                if(item.ProductoId == Id)
+                {
+                    detalleVM.ExisteProducto = true;
+                }
+            }
             return View(detalleVM); 
         }
 
