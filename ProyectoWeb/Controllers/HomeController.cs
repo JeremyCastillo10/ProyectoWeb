@@ -68,6 +68,24 @@ namespace ProyectoWeb.Controllers
             return RedirectToAction(nameof(Index));
 
         }
+        public IActionResult RemoverDeCarro(int Id)
+        {
+            List<CarroCompra> carroComprasLista = new List<CarroCompra>();
+            if (HttpContext.Session.Get<IEnumerable<CarroCompra>>(WC.SessionCarroCompras) != null &&
+                HttpContext.Session.Get<IEnumerable<CarroCompra>>(WC.SessionCarroCompras).Count() > 0)
+            {
+                carroComprasLista = HttpContext.Session.Get<List<CarroCompra>>(WC.SessionCarroCompras);
+            }
+            var productoAremovver = carroComprasLista.SingleOrDefault(x => x.ProductoId == Id); 
+            if(productoAremovver != null)
+            {
+                carroComprasLista.Remove(productoAremovver);
+            }
+            HttpContext.Session.Set(WC.SessionCarroCompras, carroComprasLista);
+
+            return RedirectToAction(nameof(Index));
+
+        }
 
         public IActionResult Privacy()
         {
