@@ -13,6 +13,7 @@ namespace ProyectoWeb.Datos
 
         public DbSet<Categoria> Categoria { get; set; }
         public DbSet<TipoAplicacion> TipoAplicacion { get; set; }
-        public DbSet<Producto> Producto { get; set; }   
+        public DbSet<Producto> Producto { get; set; }
+        public DbSet<UsuariosAplicacion> UsuariosAplicacion { get; set; }
     }
 }
