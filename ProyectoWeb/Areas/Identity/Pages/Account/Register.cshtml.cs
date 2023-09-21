@@ -26,6 +26,7 @@ namespace ProyectoWeb.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
@@ -36,7 +37,8 @@ namespace ProyectoWeb.Areas.Identity.Pages.Account
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +46,7 @@ namespace ProyectoWeb.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _roleManager = roleManager;
         }
 
         /// <summary>
@@ -99,13 +102,22 @@ namespace ProyectoWeb.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
+
+            [Required(ErrorMessage = "El nombre es Obligatorio")]
             public string NombreCompleto { get; set; }
+            [Phone]
+            [Required(ErrorMessage = "El telefono es Obligatorio")]
             public string PhoneNumber { get; set; }
         }
 
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            if(!await _roleManager.RoleExistsAsync(WC.AdminRole))
+            {
+                await _roleManager.CreateAsync(new IdentityRole(WC.AdminRole));
+                await _roleManager.CreateAsync(new IdentityRole(WC.UserRole));
+            }
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -131,6 +143,7 @@ namespace ProyectoWeb.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, WC.AdminRole);
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);

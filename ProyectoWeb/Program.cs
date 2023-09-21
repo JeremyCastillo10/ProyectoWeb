@@ -8,7 +8,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(option => {
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddDefaultIdentity<IdentityUser>()
+builder.Services.AddIdentity<IdentityUser,IdentityRole>()
+    .AddDefaultTokenProviders()
+    .AddDefaultUI()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews();
