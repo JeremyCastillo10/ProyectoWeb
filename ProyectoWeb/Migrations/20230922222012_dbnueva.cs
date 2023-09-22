@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProyectoWeb.Migrations
 {
     /// <inheritdoc />
-    public partial class newdata : Migration
+    public partial class dbnueva : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

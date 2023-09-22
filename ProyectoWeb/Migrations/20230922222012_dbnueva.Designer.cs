@@ -12,8 +12,8 @@ using ProyectoWeb.Datos;
 namespace ProyectoWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230921223704_newdata")]
-    partial class newdata
+    [Migration("20230922222012_dbnueva")]
+    partial class dbnueva
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
