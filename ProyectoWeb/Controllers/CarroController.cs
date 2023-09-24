@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProyectoWeb.Datos;
 using ProyectoWeb.Models;
 using ProyectoWeb.Utilidades;
 
 namespace ProyectoWeb.Controllers
 {
+    [Authorize]
     public class CarroController : Controller
     {
         private readonly ApplicationDbContext _applicationDbContext;
