@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProyectoWeb.Datos;
 using ProyectoWeb.Models;
 
 namespace ProyectoWeb.Controllers
 {
+    [Authorize(Roles = WC.AdminRole)]
     public class TipoAplicacionController : Controller
     {
         private ApplicationDbContext _applicationDbContext;

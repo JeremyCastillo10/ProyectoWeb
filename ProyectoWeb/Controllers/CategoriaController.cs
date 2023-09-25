@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProyectoWeb.Datos;
 using ProyectoWeb.Models;
+using System.Data;
 
 
 namespace ProyectoWeb.Controllers
 {
+    [Authorize(Roles = WC.AdminRole)]
     public class CategoriaController : Controller
     {
         private readonly ApplicationDbContext applicationDbContext;

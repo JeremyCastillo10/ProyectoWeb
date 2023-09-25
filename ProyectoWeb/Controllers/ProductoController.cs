@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProyectoWeb.Datos;
 using ProyectoWeb.Models;
 using ProyectoWeb.Models.VIewModels;
+using System.Data;
 
 namespace ProyectoWeb.Controllers
 {
+    [Authorize(Roles = WC.AdminRole)]
     public class ProductoController : Controller
     {
         private readonly ApplicationDbContext _context;
