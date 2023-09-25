@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using ProyectoWeb.Datos;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

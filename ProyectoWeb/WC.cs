@@ -3,8 +3,8 @@
     public static class WC
     {
         public const string ImagenRuta = @"\imagenes\producto\";
-        public static string SessionCarroCompras = "SessionCarroCompras";
-        public static string AdminRole = "Admin";
-        public static string UserRole = "Cliente";
+        public const string SessionCarroCompras = "SessionCarroCompras";
+        public const string AdminRole = "Admin";
+        public const string UserRole = "Cliente";
     }
 }

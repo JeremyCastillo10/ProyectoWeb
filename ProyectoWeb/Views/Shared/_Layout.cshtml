@@ -16,7 +16,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="color: darkblue">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ProyectoWeb</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -30,18 +30,26 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Administrar Contenido
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Categoria" asp-action="Index">Category</a></li>
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="TipoAplicacion" asp-action="Index">Type</a></li>
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Producto" asp-action="Index">Products</a></li>
-                                <li><a class="nav-link text-dark" asp-area="Identity"  asp-page="/Account/Register">New User</a></li>
-                            </ul>
-                        </li>
+                       
+                            
+                       
+                        @if (User.IsInRole(WC.AdminRole))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Administrar Contenido
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Categoria" asp-action="Index">Category</a></li>
+                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="TipoAplicacion" asp-action="Index">Type</a></li>
+                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Producto" asp-action="Index">Products</a></li>
+                                    <li><a class="nav-link text-dark" asp-area="Identity"  asp-page="/Account/Register">New User</a></li>
+                                </ul>
+                            </li>
+                        }
                         <li>
+
+
                             @if(HttpContextAccessor.HttpContext.Session.Get<List<CarroCompra>>(WC.SessionCarroCompras) != null)
                                 {
                                 <a asp-action="Index" asp-controller="Carro" class="nav-link">
@@ -56,6 +64,7 @@
                                     <i class="fas fa-shopping-cart"></i>&nbsp; (0)
                                     </a>
                                 }
+
                         </li>
                     </ul>
                 </div>
