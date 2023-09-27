@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using ProyectoWeb.Datos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using ProyectoWeb.Datos.Repositorio.IRepositorio;
+using ProyectoWeb.Datos.Repositorio;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,7 @@ builder.Services.AddIdentity<IdentityUser,IdentityRole>()
     .AddDefaultTokenProviders()
     .AddDefaultUI()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddScoped<ICategoriaRepositorio, CategoriaRepositorio>();
 
 builder.Services.AddControllersWithViews();
 
