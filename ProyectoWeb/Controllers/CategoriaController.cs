@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProyectoWeb.Datos;
+using ProyectoWeb.Datos.Repositorio.IRepositorio;
 using ProyectoWeb.Models;
 using System.Data;
 
@@ -11,15 +12,17 @@ namespace ProyectoWeb.Controllers
     [Authorize(Roles = WC.AdminRole)]
     public class CategoriaController : Controller
     {
-        private readonly ApplicationDbContext applicationDbContext;
-        public CategoriaController(ApplicationDbContext _applicationDbContext)
+        public readonly ICategoriaRepositorio _catRepo;
+
+        public CategoriaController(ICategoriaRepositorio catRepo)
         {
-            applicationDbContext = _applicationDbContext;
+            _catRepo = catRepo;
         }
 
-        public async Task<IActionResult> Index() { 
-        
-            return View(await applicationDbContext.Categoria.ToListAsync());
+        public async Task<IActionResult> Index() {
+
+            IEnumerable<Categoria> lista = _catRepo.ObtenerTodos();
+            return View(lista);
         }
 
 
@@ -37,21 +40,21 @@ namespace ProyectoWeb.Controllers
 
             if (ModelState.IsValid)
             {
-                applicationDbContext.Categoria.Add(categoria);
-                applicationDbContext.SaveChanges();
+                _catRepo.Agregar(categoria);
+                _catRepo.Grabar();
 
                 return RedirectToAction(nameof(Index));
             }
                 return View(categoria);
         }
         //Get
-        public IActionResult Edit(int Id)
+        public IActionResult Edit(int ?Id)
         {
             if(Id == 0 || Id == null)
             {
                 return NotFound();
             }
-            var db = applicationDbContext.Categoria.Find(Id);
+            var db = _catRepo.Obtener(Id.GetValueOrDefault());
             if(db == null)
             {
                 return NotFound();
@@ -65,20 +68,20 @@ namespace ProyectoWeb.Controllers
 
             if (ModelState.IsValid)
             {
-                applicationDbContext.Categoria.Update(categoria);
-                applicationDbContext.SaveChanges();
+               _catRepo.Actualizar(categoria);
+                _catRepo.Grabar();
 
                 return RedirectToAction(nameof(Index));
             }
             return View(categoria);
         }
-        public IActionResult Delete(int Id)
+        public IActionResult Delete(int ?Id)
         {
             if (Id == 0 || Id == null)
             {
                 return NotFound();
             }
-            var db = applicationDbContext.Categoria.Find(Id);
+            var db = _catRepo.Obtener(Id.GetValueOrDefault());
             if (db == null)
             {
                 return NotFound();
@@ -93,8 +96,8 @@ namespace ProyectoWeb.Controllers
             {
                 return NotFound();
             }
-                applicationDbContext.Categoria.Remove(categoria);
-                applicationDbContext.SaveChanges();
+                _catRepo.Remover(categoria);
+                _catRepo.Grabar();
 
                 return RedirectToAction(nameof(Index));
         }
