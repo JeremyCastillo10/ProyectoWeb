@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProyectoWeb.Datos;
+using ProyectoWeb.Datos.Repositorio;
+using ProyectoWeb.Datos.Repositorio.IRepositorio;
 using ProyectoWeb.Models;
 
 namespace ProyectoWeb.Controllers
@@ -9,16 +11,19 @@ namespace ProyectoWeb.Controllers
     [Authorize(Roles = WC.AdminRole)]
     public class TipoAplicacionController : Controller
     {
-        private ApplicationDbContext _applicationDbContext;
+        public readonly ITipoAplicacionRepositorio _tipoRepo;
 
-        public TipoAplicacionController(ApplicationDbContext applicationDbContext)
+
+
+        public TipoAplicacionController(ITipoAplicacionRepositorio tipoRepo)
         {
-            _applicationDbContext = applicationDbContext;
+            _tipoRepo = tipoRepo;
         }
         public async Task<IActionResult> Index()
         {
+            IEnumerable<TipoAplicacion> lista = _tipoRepo.ObtenerTodos();
 
-            return View(await _applicationDbContext.TipoAplicacion.ToListAsync());
+            return View(lista);
         }
 
         public IActionResult Create()
@@ -31,8 +36,8 @@ namespace ProyectoWeb.Controllers
         public IActionResult Create(TipoAplicacion tipo)
         {
             if (ModelState.IsValid) {
-                _applicationDbContext.TipoAplicacion.Add(tipo);
-                _applicationDbContext.SaveChanges();
+                _tipoRepo.Agregar(tipo);
+                _tipoRepo.Grabar();
 
                 return RedirectToAction(nameof(Index));
             }
@@ -47,7 +52,7 @@ namespace ProyectoWeb.Controllers
             {
                 return NotFound();
             }
-            var db = _applicationDbContext.TipoAplicacion.Find(Id);
+            var db = _tipoRepo.Obtener(Id);
             if (db == null) {
                 return NotFound();
             }
@@ -60,8 +65,8 @@ namespace ProyectoWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                _applicationDbContext.TipoAplicacion.Update(tipo);
-                _applicationDbContext.SaveChanges();
+                _tipoRepo.Actualizar(tipo);
+                _tipoRepo.Grabar();
 
                 return RedirectToAction(nameof(Index));
             }
@@ -75,7 +80,7 @@ namespace ProyectoWeb.Controllers
             {
                 return NotFound();
             }
-            var db = _applicationDbContext.TipoAplicacion.Find(Id);
+            var db = _tipoRepo.Obtener(Id);
             if (db == null)
             {
                 return NotFound();
@@ -91,8 +96,8 @@ namespace ProyectoWeb.Controllers
             {
                 return NotFound();
             }
-                _applicationDbContext.TipoAplicacion.Remove(tipo);
-                _applicationDbContext.SaveChanges();
+                _tipoRepo.Remover(tipo);
+                _tipoRepo.Grabar();
 
                 return RedirectToAction(nameof(Index));
 

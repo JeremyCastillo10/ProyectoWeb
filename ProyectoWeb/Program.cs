@@ -17,6 +17,7 @@ builder.Services.AddIdentity<IdentityUser,IdentityRole>()
     .AddDefaultUI()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddScoped<ICategoriaRepositorio, CategoriaRepositorio>();
+builder.Services.AddScoped<ITipoAplicacionRepositorio, TipoAplicacionRepositorio>();
 
 builder.Services.AddControllersWithViews();
 
