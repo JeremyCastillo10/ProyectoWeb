@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProyectoWeb.Datos;
+using ProyectoWeb.Datos.Repositorio.IRepositorio;
 using ProyectoWeb.Models;
 using ProyectoWeb.Models.VIewModels;
 using System.Data;
@@ -12,19 +13,18 @@ namespace ProyectoWeb.Controllers
     [Authorize(Roles = WC.AdminRole)]
     public class ProductoController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IProductoRepositorio _prodRepo;
         private readonly IWebHostEnvironment _webHostEnvironment;   
 
-        public ProductoController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
+        public ProductoController(IProductoRepositorio prodRepo, IWebHostEnvironment webHostEnvironment)
         {
-            _context = context;
+            _prodRepo = prodRepo;
             _webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Producto> lista = _context.Producto.Include(c => c.Categoria)
-                                                      .Include(t => t.TipoAplicacion);
+            IEnumerable<Producto> lista = _prodRepo.ObtenerTodos(incluirPropiedades: "Categoria,TipoAplicacion");
             return View(lista);
         }
 
@@ -42,16 +42,8 @@ namespace ProyectoWeb.Controllers
             ProductoVM productoVM = new ProductoVM()
             {
                 Producto = new Producto(),
-                CategoriaLista = _context.Categoria.Select(c => new SelectListItem
-                {
-                    Text = c.NombreCategoria,
-                    Value = c.Id.ToString()
-                }),
-                TipoAplicacionLista = _context.TipoAplicacion.Select(c => new SelectListItem
-                {
-                    Text = c.Nombre,
-                    Value = c.Id.ToString()
-                })
+                CategoriaLista = _prodRepo.ObtenerTodosDropDownList(WC.CategoriaNombre),
+                TipoAplicacionLista = _prodRepo.ObtenerTodosDropDownList(WC.TipoAplicacionNombre)
             };
 
             if (Id == null)
@@ -61,7 +53,7 @@ namespace ProyectoWeb.Controllers
             }
             else
             {
-                productoVM.Producto = _context.Producto.Find(Id);
+                productoVM.Producto = _prodRepo.Obtener(Id.GetValueOrDefault());
                 if (productoVM.Producto == null)
                 {
                     return NotFound();
@@ -92,12 +84,12 @@ namespace ProyectoWeb.Controllers
                     }
 
                     productoVM.Producto.ImagenUrl = fileName + extension;
-                    _context.Producto.Add(productoVM.Producto);
+                    _prodRepo.Agregar(productoVM.Producto);
                 }
                 else
                 {
                     // Actualizar
-                    var objProducto = _context.Producto.AsNoTracking().FirstOrDefault(p => p.Id == productoVM.Producto.Id);
+                    var objProducto = _prodRepo.ObtenerPrimero(p => p.Id == productoVM.Producto.Id, isTracking :false);
 
                     if (files.Count > 0)  // Se carga nueva Imagen
                     {
@@ -124,23 +116,16 @@ namespace ProyectoWeb.Controllers
                     {
                         productoVM.Producto.ImagenUrl = objProducto.ImagenUrl;
                     }
-                    _context.Producto.Update(productoVM.Producto);
+                    _prodRepo.Actualizar(productoVM.Producto);
 
                 }
-                _context.SaveChanges();
+                _prodRepo.Grabar();
                 return RedirectToAction("Index");
             }  // If ModelIsValid
-            // Se llenan nuevamente las listas si algo falla
-            productoVM.CategoriaLista = _context.Categoria.Select(c => new SelectListItem
-            {
-                Text = c.NombreCategoria,
-                Value = c.Id.ToString()
-            });
-            productoVM.TipoAplicacionLista = _context.TipoAplicacion.Select(c => new SelectListItem
-            {
-                Text = c.Nombre,
-                Value = c.Id.ToString()
-            });
+               // Se llenan nuevamente las listas si algo falla
+
+            productoVM.CategoriaLista = _prodRepo.ObtenerTodosDropDownList(WC.CategoriaNombre);
+            productoVM.TipoAplicacionLista = _prodRepo.ObtenerTodosDropDownList(WC.TipoAplicacionNombre);
 
             return View(productoVM);
         }
@@ -152,9 +137,7 @@ namespace ProyectoWeb.Controllers
             {
                 return NotFound();
             }
-            Producto producto = _context.Producto.Include(c => c.Categoria)
-                .Include(t => t.TipoAplicacion)
-                .FirstOrDefault(p => p.Id == Id);
+            Producto producto = _prodRepo.ObtenerPrimero(p => p.Id == Id, incluirPropiedades:"Categoria,TipoAplicacion");
 
 
             if(producto == null)
@@ -180,8 +163,8 @@ namespace ProyectoWeb.Controllers
             {
                 System.IO.File.Delete(anteriorFile);
             }
-            _context.Producto.Remove(producto);
-            _context.SaveChanges();
+            _prodRepo.Remover(producto);
+            _prodRepo.Grabar();
             return RedirectToAction(nameof(Index));   
         }
 
