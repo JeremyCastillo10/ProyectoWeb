@@ -9,9 +9,9 @@ namespace ProyectoWeb.Models
         public int Id { get; set; }
 
         [Required]
-        public int UsuarioAplicacionId { get; set; }
+        public string UsuarioAplicacionId { get; set; }
         [ForeignKey("UsuarioAplicacionId")]
-        public UsuariosAplicacion UsuarioAplicacion { get; set; }
+        public UsuariosAplicacion UsuariosAplicacion { get; set; }
         public DateTime FechaOrden { get; set; }
 
         [Required]

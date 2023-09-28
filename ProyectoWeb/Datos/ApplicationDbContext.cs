@@ -15,5 +15,7 @@ namespace ProyectoWeb.Datos
         public DbSet<TipoAplicacion> TipoAplicacion { get; set; }
         public DbSet<Producto> Producto { get; set; }
         public DbSet<UsuariosAplicacion> UsuariosAplicacion { get; set; }
+        public DbSet<Orden> Orden { get; set; }
+        public DbSet<OrdenDetalle> OrdenDetalle { get; set; }
     }
 }
