@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProyectoWeb.Datos;
+using ProyectoWeb.Datos.Repositorio.IRepositorio;
 using ProyectoWeb.Models;
 using ProyectoWeb.Models.VIewModels;
 using ProyectoWeb.Utilidades;
@@ -12,20 +13,24 @@ namespace ProyectoWeb.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ApplicationDbContext _db; 
+        private readonly IProductoRepositorio _productoRepositorio;
+        private readonly ICategoriaRepositorio _categoriaRepositorio;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db)
-        {
-            _db = db;
+        public HomeController(ILogger<HomeController> logger, IProductoRepositorio productoRepo, 
+            ICategoriaRepositorio categoriaRepo)
+        {   
             _logger = logger;
+            _productoRepositorio = productoRepo;
+            _categoriaRepositorio = categoriaRepo;
+
         }
 
         public IActionResult Index()
         {
             HomeVM vm = new HomeVM()
             {
-                Productos = _db.Producto.Include(c => c.Categoria).Include(t => t.TipoAplicacion),
-                Categorias = _db.Categoria
+                Productos = _productoRepositorio.ObtenerTodos(incluirPropiedades: "Categoria,TipoAplicacion"),
+                Categorias = _categoriaRepositorio.ObtenerTodos()
             };
             return View(vm);
         }
@@ -40,7 +45,7 @@ namespace ProyectoWeb.Controllers
             }
             DetalleVM detalleVM = new DetalleVM()
             {
-                Producto = _db.Producto.Include(c => c.Categoria).Include(t => t.TipoAplicacion).Where(p => p.Id == Id).FirstOrDefault(),
+                Producto = _productoRepositorio.ObtenerPrimero(p => p.Id == Id, incluirPropiedades:"Categoria,TipoAplicacion"),
                ExisteProducto = false,
             };
             foreach(var item in carroComprasLista)

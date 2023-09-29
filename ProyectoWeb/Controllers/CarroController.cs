@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoWeb.Datos;
+using ProyectoWeb.Datos.Repositorio.IRepositorio;
 using ProyectoWeb.Models;
 using ProyectoWeb.Models.VIewModels;
 using ProyectoWeb.Utilidades;
@@ -14,13 +15,19 @@ namespace ProyectoWeb.Controllers
     {
         [BindProperty]
         public ProductoUsuarioVM ProductoUsuarioVM { get; set; }
-        private readonly ApplicationDbContext _applicationDbContext;
-        public IEmailSender EmailSender { get; set; }
+        private readonly IProductoRepositorio _productoRepos;
+        private readonly IUsuariosAplicacionRepositorio _usariosAplicacionRepo;
+        private readonly IOrdenRepositorio _ordenRepos;
+        private readonly IOrdenDetalleRepositorio _ordenDetalleRepo;
         
 
-        public CarroController(ApplicationDbContext applicationDbContext)
+        public CarroController(IProductoRepositorio productoRepo, IUsuariosAplicacionRepositorio usuariosAplicacionRepo,
+            IOrdenRepositorio ordenRepo, IOrdenDetalleRepositorio ordenDetalleRepos)
         {
-            _applicationDbContext = applicationDbContext;
+            _productoRepos = productoRepo;  
+            _usariosAplicacionRepo = usuariosAplicacionRepo;
+            _ordenRepos = ordenRepo;
+            _ordenDetalleRepo = ordenDetalleRepos;
         }
         public IActionResult Index()
         {
@@ -31,7 +38,7 @@ namespace ProyectoWeb.Controllers
                 carroCompraslist = HttpContext.Session.Get<List<CarroCompra>>(WC.SessionCarroCompras);
             }
             List<int> proEnCarro = carroCompraslist.Select(p => p.ProductoId).ToList();
-            IEnumerable<Producto> prodLis = _applicationDbContext.Producto.Where(p => proEnCarro.Contains(p.Id));
+            IEnumerable<Producto> prodLis = _productoRepos.ObtenerTodos(p => proEnCarro.Contains(p.Id));
             return View(prodLis);
         }
         [HttpPost]
@@ -53,10 +60,10 @@ namespace ProyectoWeb.Controllers
                 carroCompraslist = HttpContext.Session.Get<List<CarroCompra>>(WC.SessionCarroCompras);
             }
             List<int> proEnCarro = carroCompraslist.Select(p => p.ProductoId).ToList();
-            IEnumerable<Producto> prodLis = _applicationDbContext.Producto.Where(p => proEnCarro.Contains(p.Id));
+            IEnumerable<Producto> prodLis = _productoRepos.ObtenerTodos(p => proEnCarro.Contains(p.Id));
             ProductoUsuarioVM = new ProductoUsuarioVM()
             {
-                UsuariosAplicacion = _applicationDbContext.UsuariosAplicacion.FirstOrDefault(i => i.Id == claim.Value),
+                UsuariosAplicacion = _usariosAplicacionRepo.ObtenerPrimero(u => u.Id == claim.Value),
                 ProductoLista = prodLis.ToList(),
             };
             return View(ProductoUsuarioVM);

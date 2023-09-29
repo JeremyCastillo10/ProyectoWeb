@@ -2,7 +2,7 @@
 
 namespace ProyectoWeb.Datos.Repositorio.IRepositorio
 {
-    public interface IUsuariosAplicacion: IRepositorio<UsuariosAplicacion>
+    public interface IUsuariosAplicacionRepositorio: IRepositorio<UsuariosAplicacion>
     {
         void Actualizar(UsuariosAplicacion usuariosAplicacion); 
     }

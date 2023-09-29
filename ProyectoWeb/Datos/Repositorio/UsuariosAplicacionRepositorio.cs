@@ -3,7 +3,7 @@ using ProyectoWeb.Models;
 
 namespace ProyectoWeb.Datos.Repositorio
 {
-    public class UsuariosAplicacionRepositorio : Repositorio<UsuariosAplicacion>, IUsuariosAplicacion
+    public class UsuariosAplicacionRepositorio : Repositorio<UsuariosAplicacion>, IUsuariosAplicacionRepositorio
     {
         private readonly ApplicationDbContext _context;
 

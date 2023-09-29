@@ -19,6 +19,9 @@ builder.Services.AddIdentity<IdentityUser,IdentityRole>()
 builder.Services.AddScoped<ICategoriaRepositorio, CategoriaRepositorio>();
 builder.Services.AddScoped<ITipoAplicacionRepositorio, TipoAplicacionRepositorio>();
 builder.Services.AddScoped<IProductoRepositorio, ProductoRepositorio>();
+builder.Services.AddScoped<IOrdenRepositorio, OrdenRepositorio>();
+builder.Services.AddScoped<IOrdenDetalleRepositorio, OrdenDetalleRepositorio>();
+builder.Services.AddScoped<IUsuariosAplicacionRepositorio, UsuariosAplicacionRepositorio>();
 
 builder.Services.AddControllersWithViews();
 
