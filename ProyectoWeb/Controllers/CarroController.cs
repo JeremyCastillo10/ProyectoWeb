@@ -74,6 +74,31 @@ namespace ProyectoWeb.Controllers
         [ActionName("Resumen")]
         public IActionResult ResumenPost(ProductoUsuarioVM productoUsuarioVM)
         {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            Orden orden = new Orden()
+            {
+                UsuarioAplicacionId = claim.Value,
+                NombreCompleto = productoUsuarioVM.UsuariosAplicacion.NombreCompleto,
+                Telefono = productoUsuarioVM.UsuariosAplicacion.PhoneNumber,
+                Email = productoUsuarioVM.UsuariosAplicacion.Email,
+                FechaOrden = DateTime.Now,
+            };
+            
+            _ordenRepos.Agregar(orden);
+            _ordenRepos.Grabar();
+            foreach(var prod in productoUsuarioVM.ProductoLista)
+            {
+                OrdenDetalle ordenDetalle = new OrdenDetalle()
+                {
+                    OrdenId = orden.Id,
+                    ProductoId = prod.Id
+                };
+                _ordenDetalleRepo.Agregar(ordenDetalle);
+            }
+
+            _ordenDetalleRepo.Grabar();
             return RedirectToAction(nameof(Confirmacion));
 
         }
