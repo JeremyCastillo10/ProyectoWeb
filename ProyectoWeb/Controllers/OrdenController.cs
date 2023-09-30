@@ -17,5 +17,13 @@ namespace ProyectoWeb.Controllers
         {
             return View();
         }
+        #region APIS
+        [HttpGet]
+        public IActionResult ObtenerListaOrdenes()
+        {
+            return Json(new { data = _ordenRepo.ObtenerTodos() });
+        }
+
+        #endregion
     }
 }
