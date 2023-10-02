@@ -19,7 +19,7 @@ namespace ProyectoWeb.Controllers
             _catRepo = catRepo;
         }
 
-        public async Task<IActionResult> Index() {
+        public IActionResult Index() {
 
             IEnumerable<Categoria> lista = _catRepo.ObtenerTodos();
             return View(lista);

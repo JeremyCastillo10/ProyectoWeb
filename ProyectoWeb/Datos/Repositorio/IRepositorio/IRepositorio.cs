@@ -18,6 +18,7 @@ namespace ProyectoWeb.Datos.Repositorio.IRepositorio
             );
         void Agregar(T entidad);
         void Remover(T entidad);
+        void RemoverTodos(IEnumerable<T> entidad);
 
         void Grabar();
     }

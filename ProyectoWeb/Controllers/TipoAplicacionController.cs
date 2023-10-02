@@ -19,7 +19,7 @@ namespace ProyectoWeb.Controllers
         {
             _tipoRepo = tipoRepo;
         }
-        public async Task<IActionResult> Index()
+        public  IActionResult Index()
         {
             IEnumerable<TipoAplicacion> lista = _tipoRepo.ObtenerTodos();
 

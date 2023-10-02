@@ -78,5 +78,10 @@ namespace ProyectoWeb.Datos.Repositorio
         {
             dbSet.Remove(entidad);
         }
+
+        public void RemoverTodos(IEnumerable<T> entidad)
+        {
+            dbSet.RemoveRange(entidad);
+        }
     }
 }

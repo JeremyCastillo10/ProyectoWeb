@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProyectoWeb.Datos.Repositorio.IRepositorio;
 using ProyectoWeb.Models;
 using ProyectoWeb.Models.VIewModels;
@@ -6,6 +7,7 @@ using ProyectoWeb.Utilidades;
 
 namespace ProyectoWeb.Controllers
 {
+    [Authorize(Roles = WC.AdminRole)]
     public class OrdenController : Controller
     {
         private readonly IOrdenRepositorio _ordenRepo;
@@ -33,6 +35,7 @@ namespace ProyectoWeb.Controllers
             return View(OrdenVM);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Detalle() 
         {
             List<CarroCompra> carroComprasLista = new List<CarroCompra>();
@@ -51,6 +54,16 @@ namespace ProyectoWeb.Controllers
             HttpContext.Session.Set(WC.SessionOrdenId, OrdenVM.orden.Id);
 
             return RedirectToAction("Index", "Carro");
+        }
+        public IActionResult Eliminar() 
+        {
+            Orden orden = _ordenRepo.ObtenerPrimero(o => o.Id == OrdenVM.orden.Id);
+            IEnumerable<OrdenDetalle> ListaDetalle = _ordenDetalleRepo.ObtenerTodos(d => d.Id == OrdenVM.orden.Id);
+            _ordenDetalleRepo.RemoverTodos(ListaDetalle);
+            _ordenRepo.Remover(orden);
+            _ordenRepo.Grabar();
+            return RedirectToAction("Index");
+
         }
         #region APIS
         [HttpGet]
