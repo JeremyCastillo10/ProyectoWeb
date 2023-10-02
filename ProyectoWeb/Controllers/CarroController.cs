@@ -36,9 +36,11 @@ namespace ProyectoWeb.Controllers
                 HttpContext.Session.Get<IEnumerable<CarroCompra>>(WC.SessionCarroCompras).Count() > 0)
             {
                 carroCompraslist = HttpContext.Session.Get<List<CarroCompra>>(WC.SessionCarroCompras);
+                
             }
             List<int> proEnCarro = carroCompraslist.Select(p => p.ProductoId).ToList();
             IEnumerable<Producto> prodLis = _productoRepos.ObtenerTodos(p => proEnCarro.Contains(p.Id));
+
             return View(prodLis);
         }
         [HttpPost]
@@ -58,6 +60,7 @@ namespace ProyectoWeb.Controllers
                 HttpContext.Session.Get<IEnumerable<CarroCompra>>(WC.SessionCarroCompras).Count() > 0)
             {
                 carroCompraslist = HttpContext.Session.Get<List<CarroCompra>>(WC.SessionCarroCompras);
+                
             }
             List<int> proEnCarro = carroCompraslist.Select(p => p.ProductoId).ToList();
             IEnumerable<Producto> prodLis = _productoRepos.ObtenerTodos(p => proEnCarro.Contains(p.Id));

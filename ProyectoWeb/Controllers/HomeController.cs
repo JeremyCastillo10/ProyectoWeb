@@ -31,7 +31,9 @@ namespace ProyectoWeb.Controllers
             {
                 Productos = _productoRepositorio.ObtenerTodos(incluirPropiedades: "Categoria,TipoAplicacion"),
                 Categorias = _categoriaRepositorio.ObtenerTodos()
+
             };
+            
             return View(vm);
         }
 

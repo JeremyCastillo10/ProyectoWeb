@@ -5,6 +5,10 @@ namespace ProyectoWeb.Models
 {
     public class Producto
     {
+        public Producto()
+        {
+            Cantidad = 1;
+        }
         [Key]
         public int Id { get; set; }
         [Required(ErrorMessage ="El nombre es Obligatorio")]
@@ -28,5 +32,8 @@ namespace ProyectoWeb.Models
         public int TipoAplicacionId { get; set; }
         [ForeignKey("TipoAplicacionId")]
         public virtual TipoAplicacion? TipoAplicacion { get; set; }
+
+        [Range(1, 10000)]
+        public int Cantidad { get; set; }
     }
 }

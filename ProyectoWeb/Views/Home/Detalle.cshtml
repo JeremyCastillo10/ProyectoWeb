@@ -28,6 +28,23 @@
 
                                         <p class="text-secondary">@Html.Raw(Model.Producto.DescripcionProducto)</p>
                                     </div>
+                                    @if(User.IsInRole(WC.AdminRole))
+                                    {
+                                        <div class="col-12">
+                                            cant:
+                                        </div>
+                                        <div class="col-12">
+                                            @if(Model.ExisteProducto)
+                                            {
+                                                <input asp-for="@Model.Producto.Cantidad" disabled class="form-control"/>
+                                            }
+                                            else
+                                            {
+                                                <input asp-for="@Model.Producto.Cantidad" class="form-control"/>
+                                            }
+                                            <span asp-validation-for="@Model.Producto.Cantidad" class="text-danger"></span>
+                                        </div>
+                                    }
 
                                 </div>
                             </div>
