@@ -85,6 +85,7 @@ namespace ProyectoWeb.Controllers
 
                     productoVM.Producto.ImagenUrl = fileName + extension;
                     _prodRepo.Agregar(productoVM.Producto);
+                    TempData[WC.Exitosa] = "Creado Exitosamente";
                 }
                 else
                 {
@@ -117,6 +118,7 @@ namespace ProyectoWeb.Controllers
                         productoVM.Producto.ImagenUrl = objProducto.ImagenUrl;
                     }
                     _prodRepo.Actualizar(productoVM.Producto);
+                    TempData[WC.Exitosa] = "Actualizado";
 
                 }
                 _prodRepo.Grabar();
@@ -165,6 +167,7 @@ namespace ProyectoWeb.Controllers
             }
             _prodRepo.Remover(producto);
             _prodRepo.Grabar();
+            TempData[WC.Exitosa] = "Removido Exitosamente";
             return RedirectToAction(nameof(Index));   
         }
 

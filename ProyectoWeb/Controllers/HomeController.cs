@@ -85,6 +85,7 @@ namespace ProyectoWeb.Controllers
             if(productoAremovver != null)
             {
                 carroComprasLista.Remove(productoAremovver);
+                TempData[WC.Exitosa] = "Removido Exitosamente";
             }
             HttpContext.Session.Set(WC.SessionCarroCompras, carroComprasLista);
 

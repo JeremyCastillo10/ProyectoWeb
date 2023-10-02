@@ -42,9 +42,11 @@ namespace ProyectoWeb.Controllers
             {
                 _catRepo.Agregar(categoria);
                 _catRepo.Grabar();
+                TempData[WC.Exitosa] = "Creado Exiotasamente";
 
                 return RedirectToAction(nameof(Index));
             }
+            TempData[WC.Error] = "Error al crear";
                 return View(categoria);
         }
         //Get
@@ -70,9 +72,11 @@ namespace ProyectoWeb.Controllers
             {
                _catRepo.Actualizar(categoria);
                 _catRepo.Grabar();
+                TempData[WC.Exitosa] = "Editado Exiotasamente";
 
                 return RedirectToAction(nameof(Index));
             }
+            TempData[WC.Error] = "Erro al Editar";
             return View(categoria);
         }
         public IActionResult Delete(int ?Id)
@@ -95,11 +99,13 @@ namespace ProyectoWeb.Controllers
             if(categoria == null)
             {
                 return NotFound();
+
             }
                 _catRepo.Remover(categoria);
                 _catRepo.Grabar();
+            TempData[WC.Exitosa] = "Removido Exitosamente";
 
-                return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index));
         }
 
 

@@ -117,7 +117,9 @@ namespace ProyectoWeb.Controllers
             }
             carroCompraslist.Remove(carroCompraslist.FirstOrDefault(p => p.ProductoId == Id));
             HttpContext.Session.Set(WC.SessionCarroCompras, carroCompraslist);
+            TempData[WC.Exitosa] = "Removido Exitosamente";
             return RedirectToAction(nameof(Index));
+            
         }
     }
 }

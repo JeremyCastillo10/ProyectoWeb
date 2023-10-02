@@ -1,0 +1,17 @@
+﻿@using ProyectoWeb.Utilidades
+@if (TempData[WC.Exitosa] != null)
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <Script type="text/javascript">
+        toastr.success('@TempData[WC.Exitosa]')
+    </Script>
+}
+@if (TempData[WC.Error] != null)
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <Script type="text/javascript">
+        toastr.error('@TempData[WC.Error]')
+    </Script>
+}

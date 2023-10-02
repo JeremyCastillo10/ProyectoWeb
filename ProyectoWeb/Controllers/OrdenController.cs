@@ -62,6 +62,7 @@ namespace ProyectoWeb.Controllers
             _ordenDetalleRepo.RemoverTodos(ListaDetalle);
             _ordenRepo.Remover(orden);
             _ordenRepo.Grabar();
+            TempData[WC.Exitosa] = "Removido Exitosamente";
             return RedirectToAction("Index");
 
         }

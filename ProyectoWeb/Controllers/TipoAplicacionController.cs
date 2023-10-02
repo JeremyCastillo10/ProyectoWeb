@@ -38,9 +38,11 @@ namespace ProyectoWeb.Controllers
             if (ModelState.IsValid) {
                 _tipoRepo.Agregar(tipo);
                 _tipoRepo.Grabar();
+                TempData[WC.Exitosa] = "Creado Exitosamente";
 
                 return RedirectToAction(nameof(Index));
             }
+            TempData[WC.Error] = "Error al crear";
             return View(tipo);
             
         }
@@ -67,9 +69,11 @@ namespace ProyectoWeb.Controllers
             {
                 _tipoRepo.Actualizar(tipo);
                 _tipoRepo.Grabar();
+                TempData[WC.Exitosa] = "Editado Exitosamente";
 
                 return RedirectToAction(nameof(Index));
             }
+            TempData[WC.Error] = "Error al Editar";
             return View(tipo);
 
         }
@@ -98,8 +102,9 @@ namespace ProyectoWeb.Controllers
             }
                 _tipoRepo.Remover(tipo);
                 _tipoRepo.Grabar();
+            TempData[WC.Exitosa] = "Removido Exitosamente";
 
-                return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index));
 
         }
 
