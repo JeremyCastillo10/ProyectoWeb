@@ -61,7 +61,7 @@ namespace ProyectoWeb.Controllers
         }
 
         [HttpPost, ActionName("Detalle")]
-        public IActionResult DetallePost(int Id)
+        public IActionResult DetallePost(int Id, DetalleVM detalleVM)
         {
             List<CarroCompra> carroComprasLista = new List<CarroCompra>();
             if(HttpContext.Session.Get<IEnumerable<CarroCompra>>(WC.SessionCarroCompras) != null &&
@@ -69,8 +69,9 @@ namespace ProyectoWeb.Controllers
             {
                 carroComprasLista = HttpContext.Session.Get<List<CarroCompra>>(WC.SessionCarroCompras);
             }
-            carroComprasLista.Add(new CarroCompra { ProductoId = Id});
+            carroComprasLista.Add(new CarroCompra { ProductoId = Id, Cantidad = detalleVM.Producto.Cantidad});
             HttpContext.Session.Set(WC.SessionCarroCompras, carroComprasLista);
+            TempData[WC.Exitosa] = "Producto Agregado Exitosamente";
 
             return RedirectToAction(nameof(Index));
 
