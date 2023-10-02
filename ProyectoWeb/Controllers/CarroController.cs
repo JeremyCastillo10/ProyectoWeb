@@ -40,8 +40,16 @@ namespace ProyectoWeb.Controllers
             }
             List<int> proEnCarro = carroCompraslist.Select(p => p.ProductoId).ToList();
             IEnumerable<Producto> prodLis = _productoRepos.ObtenerTodos(p => proEnCarro.Contains(p.Id));
+            List<Producto> prodListaFinal = new List<Producto>();
+            foreach (var item in carroCompraslist)
+            {
+                Producto prodtemp = prodLis.FirstOrDefault(p => p.Id == item.ProductoId);
+                prodtemp.Cantidad = item.Cantidad;
+                prodListaFinal.Add(prodtemp);
+                
+            }
 
-            return View(prodLis);
+            return View(prodListaFinal);
         }
         [HttpPost]
         [IgnoreAntiforgeryToken]
