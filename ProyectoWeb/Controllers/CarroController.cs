@@ -73,8 +73,33 @@ namespace ProyectoWeb.Controllers
 
         public IActionResult Resumen()
         {
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            UsuariosAplicacion usuarioAplicacion;
+            if (User.IsInRole(WC.AdminRole))
+            {
+                if (HttpContext.Session.Get<int>(WC.SessionOrdenId) != 0)
+                {
+                    Orden orden = _ordenRepos.ObtenerPrimero(u => u.Id == HttpContext.Session.Get<int>(WC.SessionOrdenId));
+                    usuarioAplicacion = new UsuariosAplicacion()
+                    {
+                        Email = orden.Email,
+                        NombreCompleto = orden.NombreCompleto,
+                        PhoneNumber = orden.Telefono
+                    };
+                }
+                else
+                {
+                    usuarioAplicacion = new UsuariosAplicacion();
+                }
+            }
+            else
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+                usuarioAplicacion = _usariosAplicacionRepo.ObtenerPrimero(u => u.Id == claim.Value);
+
+   
+            }
             List<CarroCompra> carroCompraslist = new List<CarroCompra>();
             if (HttpContext.Session.Get<IEnumerable<CarroCompra>>(WC.SessionCarroCompras) != null &&
                 HttpContext.Session.Get<IEnumerable<CarroCompra>>(WC.SessionCarroCompras).Count() > 0)
@@ -86,7 +111,7 @@ namespace ProyectoWeb.Controllers
             IEnumerable<Producto> prodLis = _productoRepos.ObtenerTodos(p => proEnCarro.Contains(p.Id));
             ProductoUsuarioVM = new ProductoUsuarioVM()
             {
-                UsuariosAplicacion = _usariosAplicacionRepo.ObtenerPrimero(u => u.Id == claim.Value),
+                UsuariosAplicacion = usuarioAplicacion,
                 ProductoLista = prodLis.ToList(),
             };
             return View(ProductoUsuarioVM);
