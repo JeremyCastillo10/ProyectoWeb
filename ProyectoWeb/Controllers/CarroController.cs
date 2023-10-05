@@ -132,5 +132,20 @@ namespace ProyectoWeb.Controllers
             return RedirectToAction(nameof(Index));
             
         }
+        public IActionResult ActualizarCarro(IEnumerable<Producto> prodLista)
+        {
+            List<CarroCompra> carroComprasLista = new List<CarroCompra>();
+            foreach(Producto prod in prodLista)
+            {
+                carroComprasLista.Add(new CarroCompra
+                {
+                    ProductoId = prod.Id,
+                    Cantidad = prod.Cantidad,
+                });
+            }
+            HttpContext.Session.Set(WC.SessionCarroCompras, carroComprasLista);
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
