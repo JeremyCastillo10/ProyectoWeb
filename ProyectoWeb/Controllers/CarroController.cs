@@ -54,8 +54,20 @@ namespace ProyectoWeb.Controllers
         [HttpPost]
         [IgnoreAntiforgeryToken]
         [ActionName("Index")]
-        public IActionResult IndexPost()
+        public IActionResult IndexPost(IEnumerable<Producto> prodLista)
         {
+            List<CarroCompra> carroComprasLista = new List<CarroCompra>();
+            foreach (Producto prod in prodLista)
+            {
+                carroComprasLista.Add(new CarroCompra
+                {
+                    ProductoId = prod.Id,
+                    Cantidad = prod.Cantidad,
+                });
+            }
+            HttpContext.Session.Set(WC.SessionCarroCompras, carroComprasLista);
+
+
             return RedirectToAction(nameof(Resumen));
         }
 
