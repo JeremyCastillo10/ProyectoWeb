@@ -1,4 +1,5 @@
-﻿@model ProyectoWeb.Models.VIewModels.ProductoUsuarioVM
+﻿@using ProyectoWeb
+@model ProyectoWeb.Models.VIewModels.ProductoUsuarioVM
 
 <form method="post">
     <br />
@@ -23,6 +24,9 @@
                                         <span class="text-info">Detalle del Usuario:</span>
                                     </h4>
                                 </div>
+                                @{
+                                    var totalOrden = 0.0;
+                                }
                                 <div class="row my-1">
                                     <div class="col-3">
                                         <label>Nombres</label>
@@ -66,9 +70,33 @@
                                                 <input type="hidden" asp-for="@Model.ProductoLista[i].NombreProducto" />
                                                 <div>
                                                     <h6 class="my-0">@Model.ProductoLista[i].NombreProducto</h6>
-                                                    <small class="text-muted">Precio: @Model.ProductoLista[i].Precio</small>
+                                                    @if(User.IsInRole(WC.AdminRole))
+                                                    {
+                                                        <small class="text-muted">Cantidad: @Model.ProductoLista[i].Cantidad</small>
+                                                    }
+                                                    else
+                                                    {
+                                                        <small class="text-muted">Precio: @Model.ProductoLista[i].Precio</small>
+                                                    }
+                                                    <small class="text-muted">Precio C/U: @Model.ProductoLista[i].Precio</small>
                                                 </div>
+                                                @if (User.IsInRole(WC.AdminRole))
+                                                {
+                                                    <span class="text-muted">$@(Model.ProductoLista[i].Precio * Model.ProductoLista[i].Cantidad)</span>
+                                                    totalOrden += @Model.ProductoLista[i].Precio * @Model.ProductoLista[i].Cantidad;
+                                                }
+
+                                                
+
                                             </li>
+                                            
+
+                                        }
+                                        @if (User.IsInRole(WC.AdminRole))
+                                        {
+                                            <div class="col-12 text-end pr-4" style="color:#821f3d">
+                                                Total Orden: @string.Format("{0:c}", totalOrden)
+                                            </div>
                                         }
 
                                     </ul>

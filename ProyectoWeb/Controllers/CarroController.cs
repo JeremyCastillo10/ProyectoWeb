@@ -112,8 +112,14 @@ namespace ProyectoWeb.Controllers
             ProductoUsuarioVM = new ProductoUsuarioVM()
             {
                 UsuariosAplicacion = usuarioAplicacion,
-                ProductoLista = prodLis.ToList(),
+
             };
+            foreach(var carro in carroCompraslist) 
+            {
+                Producto prodTemp = _productoRepos.ObtenerPrimero(p => p.Id == carro.ProductoId);
+                prodTemp.Cantidad = carro.Cantidad;
+                ProductoUsuarioVM.ProductoLista.Add(prodTemp);
+            }
             return View(ProductoUsuarioVM);
 
         }
