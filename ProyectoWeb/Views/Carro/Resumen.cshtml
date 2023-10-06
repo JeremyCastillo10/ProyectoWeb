@@ -32,7 +32,7 @@
                                         <label>Nombres</label>
                                     </div>
                                     <div class="col-9">
-                                        <input asp-for="UsuariosAplicacion.NombreCompleto" type="text" class="form-control" />
+                                        <input asp-for="UsuariosAplicacion.NombreCompleto" type="text" class="form-control" id="nombre"/>
                                         <span asp-validation-for="UsuariosAplicacion.NombreCompleto" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -41,7 +41,7 @@
                                         <label>Telefono</label>
                                     </div>
                                     <div class="col-9">
-                                        <input asp-for="UsuariosAplicacion.PhoneNumber" type="text" class="form-control" />
+                                        <input asp-for="UsuariosAplicacion.PhoneNumber" type="text" class="form-control" id="telefono"/>
                                         <span asp-validation-for="UsuariosAplicacion.PhoneNumber" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -50,8 +50,26 @@
                                         <label>Email</label>
                                     </div>
                                     <div class="col-9">
-                                        <input asp-for="UsuariosAplicacion.Email" type="text" class="form-control" />
+                                        <input asp-for="UsuariosAplicacion.Email" type="text" class="form-control" id="email"/>
                                         <span asp-validation-for="UsuariosAplicacion.Email" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label>Direccion</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input asp-for="UsuariosAplicacion.Direccion" type="text" class="form-control" id="direccion"/>
+                                        <span asp-validation-for="UsuariosAplicacion.Direccion" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label>Ciudad</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input asp-for="UsuariosAplicacion.Ciudad" type="text" class="form-control" id="ciudad"/>
+                                        <span asp-validation-for="UsuariosAplicacion.Ciudad" class="text-danger"></span>
                                     </div>
                                 </div>
                             </div>
@@ -108,7 +126,15 @@
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-12 col-md-5 offset-md-7">
-                            <button type="submit" class="btn btn-primary form-control">Enviar Orden</button>
+                            @if(User.IsInRole(WC.AdminRole))
+                            {
+                                <button type="submit" onclick="return validarcampos()" class="btn btn-primary form-control">Crear Venta</button>
+                            }
+                            else
+                            {
+                                <button type="submit" onclick="return validarcampos()" class="btn btn-primary form-control">Enviar Orden</button>
+                            }
+                            
                         </div>
                     </div>
                 </div>
@@ -120,6 +146,21 @@
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        function validarcampos()
+        {
+            if(document.getElementById("nombre").value=="" ||
+                document.getElementById("telefono").value == ""||
+                document.getElementById("email").value == ""||
+                document.getElementById("telefono").value == ""||
+                document.getElementById("direccion").value == ""){
+                swal("Error", "Debe llenar los campos", "error");
+                return false;
+                }
+            return true;
+        }
+        
+    </script>
 }
 
 
