@@ -14,12 +14,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/material.css" />
+    
     <!-- include summernote css/js -->
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3" style="color: darkblue">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm nav border-bottom box-shadow mb-3" style="color: white">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <img src="/Imagenes/tile.png" width="40%"/>
@@ -31,7 +32,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between flex-row-reverse">
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
+                        <li class="nav-item ">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
 
@@ -93,7 +94,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer bg-dark ">
+    <footer class="border-top footer ">
         <div class="container text-white">
             &copy; 2023 - ProyectoWeb - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
@@ -107,6 +108,8 @@
     
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
