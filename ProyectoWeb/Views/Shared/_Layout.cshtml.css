@@ -24,6 +24,7 @@ a {
     background-color: #1b6ec2;
     border-color: #1861ac;
 }
+
 nav-link {
     color: #FFFFFF;
 }
@@ -33,6 +34,7 @@ nav-link {
 html {
     font-size: 14px;
 }
+
 nav.navbar ul.nav li {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -252,6 +254,7 @@ body {
     width: 210px !important;
     margin: 0 auto;
 }
+
 .wrapper {
     width: 100%;
     padding-left: 200px;

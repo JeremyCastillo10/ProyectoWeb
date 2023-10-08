@@ -6,7 +6,7 @@
         <div class="container row">
             <div class="col -8">
                 <div class="card mt-4">
-                    <div class="card-header bg-dark text-light ml-0 row container">
+                    <div class="card-header text-light ml-0 row container" style="background-color:darkslategray">
                         <div class="col-6">
                             <i class="fa fa-shopping-cart"></i> &nbsp;
                             Carro de Compras
@@ -108,12 +108,12 @@
 
                         <hr />
                     </div>
-                    <div class="card-footer">
+                    <div class="card-footer " style="background-color:dimgray">
                         <div class="row">
                             <div class="col-6 col-md-3 offset-md-6">
                                 @if(User.IsInRole(WC.AdminRole))
                                 {
-                                    <button type="submit" asp-action="ActualizarCarro" class="btn btn-info form-control" formmethod="post">
+                                    <button type="submit" asp-action="ActualizarCarro" class="btn btn-info form-control text-white" formmethod="post">
                                     <span>Actualizar</span>
                                     </button>
                                 }

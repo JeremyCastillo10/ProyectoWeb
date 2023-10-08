@@ -64,11 +64,12 @@ h1 {
     color: #7B7B7B;
     display: block;
     font-size: .9rem;
-    font-weight: 400;
+    font-weight: 300;
 }
 
 .details > .options h1 {
     margin-bottom: 5px;
+        color: dimgrey
 }
 
 .details > .options ul {
@@ -114,9 +115,9 @@ h1 {
     <section class="details">
         <div class="min-details">
             <h1>@Model.NombreProducto</h1>
-            <h1 class="price">$@Model.Precio</h1>
+            <h1 class="price" style="color:green">$@Model.Precio</h1>
         </div>
-        <div class="min-details">
+        <div class="" style="font-size:5px; color: lightslategrey">
             <h1>@Model.DescripcionCorta</h1>
 
         </div>

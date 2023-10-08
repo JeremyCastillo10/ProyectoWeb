@@ -143,6 +143,8 @@ namespace ProyectoWeb.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    //await _userManager.AddToRoleAsync(user, WC.AdminRole);
+
                     if (User.IsInRole(WC.AdminRole))
                     {
                         await _userManager.AddToRoleAsync(user, WC.AdminRole);
