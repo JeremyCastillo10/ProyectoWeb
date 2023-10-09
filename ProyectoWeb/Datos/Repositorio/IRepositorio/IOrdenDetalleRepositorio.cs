@@ -2,8 +2,8 @@
 
 namespace ProyectoWeb.Datos.Repositorio.IRepositorio
 {
-    public interface IOrdenDetalleRepositorio: IRepositorio<OrdenDetalle>
+    public interface IVentaDetalleRepositorio: IRepositorio<VentaDetalle>
     {
-        void Actualizar(OrdenDetalle ordenDetalle);
+        void Actualizar(VentaDetalle ventaDetalle);
     }
 }

@@ -1,19 +1,20 @@
 ﻿using ProyectoWeb.Datos.Repositorio.IRepositorio;
 using ProyectoWeb.Models;
+using ProyectoWeb.Models.VIewModels;
 
 namespace ProyectoWeb.Datos.Repositorio
 {
-    public class OrdenRepositorio : Repositorio<Orden>, IOrdenRepositorio
+    public class VentaRepositorio : Repositorio<Venta>, IVentaRepositorio
     {
         private readonly ApplicationDbContext _context;
-        public OrdenRepositorio(ApplicationDbContext context):base(context) 
+        public VentaRepositorio(ApplicationDbContext context):base(context) 
         {
             _context = context;
         }
-
-        public void Actualizar(Orden orden)
+        public void Actualizar(Venta venta)
         {
-            _context.Update(orden);
+            _context.Update(venta);
         }
     }
+}
 }
