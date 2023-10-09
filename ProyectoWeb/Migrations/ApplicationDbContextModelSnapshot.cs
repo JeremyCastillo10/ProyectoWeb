@@ -415,7 +415,6 @@ namespace ProyectoWeb.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TransaccionId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -433,10 +432,10 @@ namespace ProyectoWeb.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("MetroCuadrado")
+                    b.Property<int>("Cantidad")
                         .HasColumnType("int");
 
-                    b.Property<double>("PrecioPorMetroCuadrado")
+                    b.Property<double>("PrecioCU")
                         .HasColumnType("float");
 
                     b.Property<int>("ProductoId")

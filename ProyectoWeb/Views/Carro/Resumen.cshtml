@@ -86,6 +86,8 @@
 
                                                 <input type="hidden" asp-for="@Model.ProductoLista[i].Id"/>
                                                 <input type="hidden" asp-for="@Model.ProductoLista[i].NombreProducto" />
+                                                <input type="hidden" asp-for="@Model.ProductoLista[i].Precio" />
+                                                <input type="hidden" asp-for="@Model.ProductoLista[i].Cantidad" />
                                                 <div>
                                                     <h6 class="my-0">@Model.ProductoLista[i].NombreProducto</h6>
                                                     @if(User.IsInRole(WC.AdminRole))

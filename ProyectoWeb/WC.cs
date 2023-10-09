@@ -17,5 +17,13 @@ namespace ProyectoWeb
 
         public const string Error = "Error";
 
+        public const string Estadopendiente = "Pendiente";
+        public const string EstadoAprobado = "Aprovado";
+        public const string EstadoEnProceso = "procesando";
+        public const string EstadoEnviado = "Enviado";
+        public const string EstadoCancelado = "Cancelado";
+        public const string EstadoDevuelto = "Devuelto";
+
+
     }
 }

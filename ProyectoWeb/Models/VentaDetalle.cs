@@ -20,8 +20,8 @@ namespace ProyectoWeb.Models
         [ForeignKey("ProductoId")]
         public Producto Producto { get; set; }
 
-        public int MetroCuadrado { get; set; }
+        public int Cantidad { get; set; }
 
-        public double PrecioPorMetroCuadrado { get; set; }
+        public double PrecioCU { get; set; }
     }
 }

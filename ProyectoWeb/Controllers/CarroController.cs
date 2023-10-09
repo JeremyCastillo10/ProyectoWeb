@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoWeb.Datos;
+using ProyectoWeb.Datos.Repositorio;
 using ProyectoWeb.Datos.Repositorio.IRepositorio;
 using ProyectoWeb.Models;
 using ProyectoWeb.Models.VIewModels;
@@ -19,15 +20,19 @@ namespace ProyectoWeb.Controllers
         private readonly IUsuariosAplicacionRepositorio _usariosAplicacionRepo;
         private readonly IOrdenRepositorio _ordenRepos;
         private readonly IOrdenDetalleRepositorio _ordenDetalleRepo;
-        
+        private readonly IVentaRepositorio _ventaRepos;
+        private readonly IVentaDetalleRepositorio _ventaDetalleRepo;
+
 
         public CarroController(IProductoRepositorio productoRepo, IUsuariosAplicacionRepositorio usuariosAplicacionRepo,
-            IOrdenRepositorio ordenRepo, IOrdenDetalleRepositorio ordenDetalleRepos)
+            IOrdenRepositorio ordenRepo, IOrdenDetalleRepositorio ordenDetalleRepos, IVentaRepositorio ventaRepo, IVentaDetalleRepositorio ventaDetalleRepo)
         {
             _productoRepos = productoRepo;  
             _usariosAplicacionRepo = usuariosAplicacionRepo;
             _ordenRepos = ordenRepo;
             _ordenDetalleRepo = ordenDetalleRepos;
+            _ventaRepos = ventaRepo;
+            _ventaDetalleRepo = ventaDetalleRepo;
         }
         public IActionResult Index()
         {
@@ -128,38 +133,78 @@ namespace ProyectoWeb.Controllers
         [ActionName("Resumen")]
         public IActionResult ResumenPost(ProductoUsuarioVM productoUsuarioVM)
         {
+
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
-            Orden orden = new Orden()
+            if (User.IsInRole(WC.AdminRole))
             {
-                UsuarioAplicacionId = claim.Value,
-                NombreCompleto = productoUsuarioVM.UsuariosAplicacion.NombreCompleto,
-                Telefono = productoUsuarioVM.UsuariosAplicacion.PhoneNumber,
-                Email = productoUsuarioVM.UsuariosAplicacion.Email,
-                FechaOrden = DateTime.Now,
-            };
-            
-            _ordenRepos.Agregar(orden);
-            _ordenRepos.Grabar();
-            foreach(var prod in productoUsuarioVM.ProductoLista)
-            {
-                OrdenDetalle ordenDetalle = new OrdenDetalle()
+                //creamos venta
+                Venta venta = new Venta()
                 {
-                    OrdenId = orden.Id,
-                    ProductoId = prod.Id
+                    CreadoPorUsusarioId = claim.Value,
+                    FinalVentaTotal = productoUsuarioVM.ProductoLista.Sum(x => x.Precio * x.Cantidad),
+                    Direccion = productoUsuarioVM.UsuariosAplicacion.Direccion,
+                    Ciudad = productoUsuarioVM.UsuariosAplicacion.Ciudad,
+                    Email = productoUsuarioVM.UsuariosAplicacion.Email,
+                    Telefono = productoUsuarioVM.UsuariosAplicacion.PhoneNumber,
+                    NombreCompleto = productoUsuarioVM.UsuariosAplicacion.NombreCompleto,
+                    FechaVenta = DateTime.Now,
+                    EstadoVenta = WC.Estadopendiente
+
                 };
-                _ordenDetalleRepo.Agregar(ordenDetalle);
+                _ventaRepos.Agregar(venta);
+                _ventaRepos.Grabar();
+
+                foreach(var prod in productoUsuarioVM.ProductoLista)
+                {
+                    VentaDetalle ventaDetalle = new VentaDetalle()
+                    {
+                        VentaId = venta.Id,
+                        PrecioCU = prod.Precio,
+                        Cantidad = prod.Cantidad,
+                        ProductoId= prod.Id,
+                    };
+                    _ventaDetalleRepo.Agregar(ventaDetalle);
+                }
+                _ventaDetalleRepo.Grabar();
+                return RedirectToAction(nameof(Confirmacion), new {id = venta.Id});
             }
+            else
+            {
+                //creamos orden
+                Orden orden = new Orden()
+                {
+                    UsuarioAplicacionId = claim.Value,
+                    NombreCompleto = productoUsuarioVM.UsuariosAplicacion.NombreCompleto,
+                    Telefono = productoUsuarioVM.UsuariosAplicacion.PhoneNumber,
+                    Email = productoUsuarioVM.UsuariosAplicacion.Email,
+                    FechaOrden = DateTime.Now,
+                };
+
+                _ordenRepos.Agregar(orden);
+                _ordenRepos.Grabar();
+                foreach (var prod in productoUsuarioVM.ProductoLista)
+                {
+                    OrdenDetalle ordenDetalle = new OrdenDetalle()
+                    {
+                        OrdenId = orden.Id,
+                        ProductoId = prod.Id
+                    };
+                    _ordenDetalleRepo.Agregar(ordenDetalle);
+                }
+            }
+           
 
             _ordenDetalleRepo.Grabar();
             return RedirectToAction(nameof(Confirmacion));
 
         }
-        public IActionResult Confirmacion() 
+        public IActionResult Confirmacion(int id = 0) 
         {
+            Venta venta = _ventaRepos.ObtenerPrimero(v => v.Id == id);
             HttpContext.Session.Clear();
-            return View();
+            return View(venta);
         } 
         public IActionResult Remover(int Id)
         {

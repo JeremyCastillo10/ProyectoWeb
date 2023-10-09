@@ -25,7 +25,7 @@ namespace ProyectoWeb.Models
 
         public DateTime FechaPago { get; set; }
 
-        public string TransaccionId { get; set; }  // BrainTree 
+        public string? TransaccionId { get; set; }  // BrainTree 
 
         [Required]
         public string Telefono { get; set; }
