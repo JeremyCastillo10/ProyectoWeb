@@ -22,6 +22,8 @@ builder.Services.AddScoped<IProductoRepositorio, ProductoRepositorio>();
 builder.Services.AddScoped<IOrdenRepositorio, OrdenRepositorio>();
 builder.Services.AddScoped<IOrdenDetalleRepositorio, OrdenDetalleRepositorio>();
 builder.Services.AddScoped<IUsuariosAplicacionRepositorio, UsuariosAplicacionRepositorio>();
+builder.Services.AddScoped<IVentaRepositorio, IVentaRepositorio>();
+builder.Services.AddScoped<IVentaDetalleRepositorio,  VentaDetalleRepositorio>();
 
 builder.Services.AddControllersWithViews();
 
