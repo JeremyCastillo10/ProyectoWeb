@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol;
 using ProyectoWeb.Datos;
 using ProyectoWeb.Datos.Repositorio;
 using ProyectoWeb.Datos.Repositorio.IRepositorio;
 using ProyectoWeb.Models;
 using ProyectoWeb.Models.VIewModels;
 using ProyectoWeb.Utilidades;
+using ProyectoWeb.Utilidades.BrainTree;
 using System.Security.Claims;
 
 namespace ProyectoWeb.Controllers
@@ -22,10 +24,12 @@ namespace ProyectoWeb.Controllers
         private readonly IOrdenDetalleRepositorio _ordenDetalleRepo;
         private readonly IVentaRepositorio _ventaRepos;
         private readonly IVentaDetalleRepositorio _ventaDetalleRepo;
+        private readonly IBraintTreeGate _brain;
 
 
         public CarroController(IProductoRepositorio productoRepo, IUsuariosAplicacionRepositorio usuariosAplicacionRepo,
-            IOrdenRepositorio ordenRepo, IOrdenDetalleRepositorio ordenDetalleRepos, IVentaRepositorio ventaRepo, IVentaDetalleRepositorio ventaDetalleRepo)
+            IOrdenRepositorio ordenRepo, IOrdenDetalleRepositorio ordenDetalleRepos, IVentaRepositorio ventaRepo, IVentaDetalleRepositorio ventaDetalleRepo
+            , IBraintTreeGate brain)
         {
             _productoRepos = productoRepo;  
             _usariosAplicacionRepo = usuariosAplicacionRepo;
@@ -33,6 +37,7 @@ namespace ProyectoWeb.Controllers
             _ordenDetalleRepo = ordenDetalleRepos;
             _ventaRepos = ventaRepo;
             _ventaDetalleRepo = ventaDetalleRepo;
+            _brain = brain;
         }
         public IActionResult Index()
         {
@@ -95,6 +100,9 @@ namespace ProyectoWeb.Controllers
                 {
                     usuarioAplicacion = new UsuariosAplicacion();
                 }
+                var gateway = _brain.GetGateway();
+                var clientToken = gateway.ClientToken.Generate();
+                ViewBag.ClientToken= clientToken;
             }
             else
             {

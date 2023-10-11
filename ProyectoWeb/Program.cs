@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using ProyectoWeb.Datos.Repositorio.IRepositorio;
 using ProyectoWeb.Datos.Repositorio;
+using ProyectoWeb.Utilidades.BrainTree;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,8 @@ builder.Services.AddSession(opt =>
     opt.Cookie.HttpOnly = true;
     opt.Cookie.IsEssential = true;
 });
+builder.Services.Configure<BrainTreeSettings>(builder.Configuration.GetSection("BrainTree"));
+builder.Services.AddSingleton<IBraintTreeGate, BrainTreeGate>();
 var app = builder.Build();
 
 
