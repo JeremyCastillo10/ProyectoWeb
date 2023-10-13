@@ -18,9 +18,9 @@ namespace ProyectoWeb.Utilidades.BrainTree
             if (_options.Environment == null || _options.MerchantId == null || _options.PublicKey == null || _options.PrivateKey == null)
             {
                 _options.Environment = "sandbox";
-                _options.MerchantId = "qky778sx973ns73q";
-                _options.PublicKey = "kjfqv5bxnvfm2497";
-                _options.PrivateKey = "a9a45d0af8475a5664f0c99789bab3e7";
+                _options.MerchantId = "8vghsspyn9b3k2yy";
+                _options.PublicKey = "cgsqr6cpmc4b3wy5";
+                _options.PrivateKey = "8afea6bfeafff1fe89afdcb8b9bd45d2";
             }
             return new BraintreeGateway(_options.Environment, _options.MerchantId, _options.PublicKey, _options.PrivateKey);
         }

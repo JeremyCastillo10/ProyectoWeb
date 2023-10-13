@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Braintree;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
@@ -139,7 +140,7 @@ namespace ProyectoWeb.Controllers
         [HttpPost]
         [IgnoreAntiforgeryToken]
         [ActionName("Resumen")]
-        public IActionResult ResumenPost(ProductoUsuarioVM productoUsuarioVM)
+        public IActionResult ResumenPost(IFormCollection collection, ProductoUsuarioVM productoUsuarioVM)
         {
 
             var claimsIdentity = (ClaimsIdentity)User.Identity;
@@ -176,6 +177,31 @@ namespace ProyectoWeb.Controllers
                     _ventaDetalleRepo.Agregar(ventaDetalle);
                 }
                 _ventaDetalleRepo.Grabar();
+                string nonceFromTheClient = collection["payment_method_nonce"];
+                var request = new TransactionRequest
+                {
+                    Amount = Convert.ToDecimal(venta.FinalVentaTotal),
+                    PaymentMethodNonce = nonceFromTheClient,
+                    OrderId = venta.Id.ToString(),
+                    Options = new TransactionOptionsRequest
+                    {
+                        SubmitForSettlement = true
+                    }
+                };
+                var gateway = _brain.GetGateway();
+                Result<Transaction> result = gateway.Transaction.Sale(request);
+
+                //modificar la venta
+                if(result.Target.ProcessorSettlementResponseText=="Approved")
+                {
+                    venta.TransaccionId = result.Target.Id;
+                    venta.EstadoVenta = WC.EstadoAprobado;
+                }
+                else
+                {
+                    venta.EstadoVenta = WC.EstadoCancelado;
+                }
+                _ventaRepos.Grabar();
                 return RedirectToAction(nameof(Confirmacion), new {id = venta.Id});
             }
             else
@@ -242,6 +268,11 @@ namespace ProyectoWeb.Controllers
             HttpContext.Session.Set(WC.SessionCarroCompras, carroComprasLista);
 
             return RedirectToAction(nameof(Index));
+        }
+        public IActionResult Limpiar()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

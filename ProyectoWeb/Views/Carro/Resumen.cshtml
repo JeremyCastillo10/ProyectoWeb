@@ -142,11 +142,11 @@
                         <div class="col-12 col-md-5 offset-md-7">
                             @if(User.IsInRole(WC.AdminRole))
                             {
-                                <button type="submit" onclick="return validarcampos()" class="btn btn-primary form-control">Crear Venta</button>
+                                <button type="submit" onclick="return validarcampos('admin')" class="btn btn-primary form-control">Crear Venta</button>
                             }
                             else
                             {
-                                <button type="submit" onclick="return validarcampos()" class="btn btn-primary form-control">Enviar Orden</button>
+                                <button type="submit" onclick="return validarcampos('noadmin')" class="btn btn-primary form-control">Enviar Orden</button>
                             }
                             
                         </div>
@@ -163,7 +163,7 @@
     <script src="https://js.braintreegateway.com/web/dropin/1.40.2/js/dropin.min.js"></script>
 
     <script>
-        function validarcampos()
+        function validarcampos(rol)
         {
             if(document.getElementById("nombre").value=="" ||
                 document.getElementById("telefono").value == ""||
@@ -172,6 +172,10 @@
                 document.getElementById("direccion").value == ""){
                 swal("Error", "Debe llenar los campos", "error");
                 return false;
+                }
+                if(rol == "noadmin")
+                {
+                    form.submit();
                 }
             return true;
         }
