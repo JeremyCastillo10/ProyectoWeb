@@ -1,0 +1,132 @@
+﻿@model ProyectoWeb.Models.VIewModels.VentaVM
+
+<form method="post">
+    <input hidden asp-for="venta.Id" />
+    <br />
+    <div class="backgroundWhite container">
+        <div class="card">
+            <div class="card-header bg-dark text-light ml-0 row container">
+                <div class="col-12 d-none d-md-block col-md-6 pb-1">
+                    <i class="fas fa-shopping-cart"></i> &nbsp; Resumen de la Venta # @Model.venta.Id
+                </div>
+                <div class="col-12 col-md-4 offset-md-2 text-right">
+                    <a asp-action="Index" class="btn btn-outline-info form-control btn-sm">Regresar</a>
+                </div>
+            </div>
+            <div class="card-body pb-0">
+                <div class="container rounded p-2">
+                    <div class="row">
+                        <div class="col-12 col-lg-6 pb-4">
+                            <div class="row">
+                                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="text-info">Detalles de Entrega:</span>
+                                </h4>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Nombre</div>
+                                <div class="col-9">
+                                    <input asp-for="venta.NombreCompleto" type="text" class="form-control" />
+                                    <span asp-validation-for="venta.NombreCompleto" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Telefono</div>
+                                <div class="col-9">
+                                    <input asp-for="venta.Telefono" type="text" class="form-control" />
+                                    <span asp-validation-for="venta.Telefono" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="row my-1">
+                                <div class="col-3">Email</div>
+                                <div class="col-9">
+                                    <input asp-for="venta.Email" type="text" class="form-control" />
+                                    <span asp-validation-for="venta.Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Ciudad</div>
+                                <div class="col-9">
+                                    <input asp-for="venta.Ciudad" type="text" class="form-control" />
+                                    <span asp-validation-for="venta.Ciudad" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">CreadoPorUsusarioId</div>
+                                <div class="col-9">
+                                    <input asp-for="venta.CreadoPorUsusarioId" type="text" class="form-control" />
+                                    <span asp-validation-for="venta.Ciudad" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Estado Venta</div>
+                                <div class="col-9">
+                                    <input asp-for="venta.EstadoVenta" type="text" class="form-control" />
+                                    <span asp-validation-for="venta.EstadoVenta" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Fecha Envio</div>
+                                <div class="col-9">
+                                    <input value="@Model.venta.FechaEnvio.ToShortDateString()" type="text" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Fecha Pago</div>
+                                <div class="col-9">
+                                    <input value="@Model.venta.FechaPago.ToShortDateString()" type="text" class="form-control" readonly />
+                                </div>
+                            </div>
+
+                            <div class="row my-1">
+                                <div class="col-3">Fecha de venta</div>
+                                <div class="col-9">
+                                    <input value="@Model.venta.FechaVenta.ToShortDateString()" type="text" class="form-control" readonly />
+                                </div>
+                            </div>
+
+                            <div class="row my-1 pt-2">
+                                <div class="col-9 offset-3">
+                                    <div class="row">
+
+                                        <div class="col">
+                                            <input type="submit" value="Eliminar" class="btn btn-danger form-control" formaction="/Venta/Eliminar" formmethod="post" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-5 offset-lg-1">
+                            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="text-info">Datos de la Venta</span>
+                            </h4>
+                            <ul class="list-group mb-3">
+                                @foreach (var prod in Model.ventaDetalles)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between p-2">
+                                        <div class="row container">
+                                            <div class="col-8">
+
+                                                <h6 class="my-0 text-info">@prod.Producto.NombreProducto</h6>
+                                                <small class="text-muted">Precio : $@prod.Producto.Precio</small><br />
+                                            </div>
+                                            <div class="col-4">
+                                            </div>
+                                        </div>
+
+                                    </li>
+                                    <div class="col-12 text-end pr-4" style="color:#821f3d">
+                                        Total Venta: @string.Format("{0:c}", prod.Venta.FinalVentaTotal)
+                                    </div>
+                                }
+
+                            </ul>
+                            <br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
