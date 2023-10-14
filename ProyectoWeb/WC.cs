@@ -1,4 +1,5 @@
 ﻿using ProyectoWeb.Models;
+using System.Collections.ObjectModel;
 
 namespace ProyectoWeb
 {
@@ -23,6 +24,12 @@ namespace ProyectoWeb
         public const string EstadoEnviado = "Enviado";
         public const string EstadoCancelado = "Cancelado";
         public const string EstadoDevuelto = "Devuelto";
+
+        public static readonly IEnumerable<string> ListaEstados = new ReadOnlyCollection<string>(
+            new List<string>
+            {
+                Estadopendiente, EstadoAprobado, EstadoEnProceso, EstadoEnviado,EstadoCancelado, EstadoDevuelto
+            });
 
 
     }
